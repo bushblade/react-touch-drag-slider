@@ -12,7 +12,7 @@ const SliderStyles = styled.div`
   display: inline-flex;
   will-change: transform, scale;
   // only want the transition after first loaded
-  transition: transform ${(props) => (props.canTransition ? '0.3s' : '0')}
+  transition: transform ${(props) => (props.canTransition ? '0.5s' : '0')}
       ease-out,
     scale 0.3s ease-out;
   cursor: grab;

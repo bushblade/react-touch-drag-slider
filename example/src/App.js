@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Slider from 'react-touch-drag-slider'
-import 'react-touch-drag-slider/dist/index.css'
 import styled, { createGlobalStyle, css } from 'styled-components'
 import images from './images'
 

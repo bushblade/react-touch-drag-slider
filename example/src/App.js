@@ -62,9 +62,8 @@ function App() {
           〉
         </Button>
         <Slider
-          onSlideComplete={(i) => setIndex(i)}
+          onSlideComplete={setIndex}
           onSlideStart={(i) => {
-            console.clear()
             console.log('started dragging on slide', i)
           }}
           activeIndex={index}

@@ -3,6 +3,7 @@ export function getPositionX(event) {
 }
 
 export function getElementDimensions(ref) {
-  const { width, height } = ref.current.getBoundingClientRect()
+  const width = ref.current.clientWidth
+  const height = ref.current.clientHeight
   return { width, height }
 }

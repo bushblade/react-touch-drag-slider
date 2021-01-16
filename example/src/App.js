@@ -20,7 +20,7 @@ const AppStyles = styled.main`
   width: 100vw;
 `
 
-// create some buttuons for none drag slide change
+// create some buttons for none drag slide change
 const Button = styled.button`
   font-size: 2rem;
   z-index: 10;

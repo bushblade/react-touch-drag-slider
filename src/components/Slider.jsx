@@ -11,8 +11,6 @@ const SliderStyles = styled.div`
   max-height: 100vh;
   display: inline-flex;
   will-change: transform, scale;
-  // only want the transition after first loaded
-  // transition: scale 0.3s ease-out;
   cursor: grab;
   .slide-outer {
     display: flex;
@@ -33,6 +31,8 @@ function Slider({
   onSlideStart,
   activeIndex = null,
   threshHold = 100,
+  transition = 0.3,
+  scale = true,
 }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -54,7 +54,7 @@ function Slider({
   )
 
   const transitionOn = () =>
-    (sliderRef.current.style.transition = 'all 0.3s ease-out')
+    (sliderRef.current.style.transition = `transform ${transition}s ease-out, scale ${transition}s ease-out`)
 
   const transitionOff = () => (sliderRef.current.style.transition = 'none')
 
@@ -117,7 +117,7 @@ function Slider({
       startPos.current = getPositionX(event)
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
-      // sliderRef.current.style.scale = 0.9
+      if (scale) sliderRef.current.style.scale = 0.9
       sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
       if (onSlideStart) onSlideStart(currentIndex.current)
@@ -148,7 +148,7 @@ function Slider({
     transitionOn()
 
     setPositionByIndex()
-    // sliderRef.current.style.scale = 1
+    if (scale) sliderRef.current.style.scale = 1
     sliderRef.current.style.cursor = 'grab'
     // if onSlideComplete prop - call it
     if (onSlideComplete) onSlideComplete(currentIndex.current)
@@ -204,6 +204,8 @@ Slider.propTypes = {
   onSlideStart: PropTypes.func,
   activeIndex: PropTypes.number,
   threshHold: PropTypes.number,
+  transition: PropTypes.number,
+  scale: PropTypes.bool,
 }
 
 export default Slider

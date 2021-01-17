@@ -34,6 +34,8 @@ function App() {
           }}
           activeIndex={0}
           threshHold={100}
+          scale={true}
+          transition={0.5}
         >
           {images.map(({ url, title }, index) => (
             <img src={url} key={index} alt={title} />
@@ -54,6 +56,8 @@ export default App
 |onSlideStart | (startIndex) => startIndex | null | function that gets called on start
 |activeIndex | Number | 0 | set to start on this index or use state to update the current index
 |threshHold | Number | 100 | pixel value that must be dragged before slide snaps to position
+|scale | Boolean | true | scale on drag or not
+|transition | Number | 0.3 | Transition delay in seconds
 
 ## License
 

@@ -68,6 +68,8 @@ function App() {
           }}
           activeIndex={index}
           threshHold={100}
+          scale={true}
+          transition={0.5}
         >
           {images.map(({ url, title }, index) => (
             <img src={url} key={index} alt={title} />

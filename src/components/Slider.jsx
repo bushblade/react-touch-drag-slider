@@ -74,8 +74,6 @@ function Slider({
     setDimensions(getElementDimensions(sliderRef))
 
     setPositionByIndex(getElementDimensions(sliderRef).width)
-
-    // transitionOn()
   }, [setPositionByIndex])
 
   // add event listeners
@@ -90,8 +88,8 @@ function Slider({
 
     const handleKeyDown = ({ key }) => {
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
+      if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
-        transitionOn()
         onSlideStart(currentIndex.current)
       }
       if (key === 'ArrowRight' && currentIndex.current < children.length - 1) {

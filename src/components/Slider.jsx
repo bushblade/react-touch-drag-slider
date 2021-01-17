@@ -12,9 +12,7 @@ const SliderStyles = styled.div`
   display: inline-flex;
   will-change: transform, scale;
   // only want the transition after first loaded
-  transition: transform ${(props) => (props.canTransition ? '0.5s' : '0')}
-      ease-out,
-    scale 0.3s ease-out;
+  // transition: scale 0.3s ease-out;
   cursor: grab;
   .slide-outer {
     display: flex;
@@ -37,7 +35,6 @@ function Slider({
   threshHold = 100,
 }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-  const [canTransition, setCanTransition] = useState(false)
 
   const dragging = useRef(false)
   const startPos = useRef(0)
@@ -56,9 +53,15 @@ function Slider({
     [dimensions.width]
   )
 
+  const transitionOn = () =>
+    (sliderRef.current.style.transition = 'all 0.3s ease-out')
+
+  const transitionOff = () => (sliderRef.current.style.transition = 'none')
+
   // watch for a change in activeIndex prop
   useEffect(() => {
     if (activeIndex !== currentIndex.current) {
+      transitionOn()
       currentIndex.current = activeIndex
       setPositionByIndex()
     }
@@ -72,13 +75,14 @@ function Slider({
 
     setPositionByIndex(getElementDimensions(sliderRef).width)
 
-    if (!canTransition) setTimeout(() => setCanTransition(true), 0)
-  }, [canTransition, setPositionByIndex])
+    // transitionOn()
+  }, [setPositionByIndex])
 
   // add event listeners
   useEffect(() => {
     // set width if window resizes
     const handleResize = () => {
+      transitionOff()
       const { width, height } = getElementDimensions(sliderRef)
       setDimensions({ width, height })
       setPositionByIndex(width)
@@ -113,7 +117,7 @@ function Slider({
       startPos.current = getPositionX(event)
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
-      sliderRef.current.style.scale = 0.9
+      // sliderRef.current.style.scale = 0.9
       sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
       if (onSlideStart) onSlideStart(currentIndex.current)
@@ -141,8 +145,10 @@ function Slider({
     if (movedBy > threshHold && currentIndex.current > 0)
       currentIndex.current -= 1
 
+    transitionOn()
+
     setPositionByIndex()
-    sliderRef.current.style.scale = 1
+    // sliderRef.current.style.scale = 1
     sliderRef.current.style.cursor = 'grab'
     // if onSlideComplete prop - call it
     if (onSlideComplete) onSlideComplete(currentIndex.current)
@@ -159,11 +165,7 @@ function Slider({
 
   return (
     <SliderWrapper className='SliderWrapper'>
-      <SliderStyles
-        ref={sliderRef}
-        className='SliderStyles'
-        canTransition={canTransition}
-      >
+      <SliderStyles ref={sliderRef} className='SliderStyles'>
         {children.map((child, index) => {
           return (
             <div

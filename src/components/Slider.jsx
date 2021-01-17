@@ -90,7 +90,10 @@ function Slider({
 
     const handleKeyDown = ({ key }) => {
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
-      if (arrowsPressed && onSlideStart) onSlideStart(currentIndex.current)
+      if (arrowsPressed && onSlideStart) {
+        transitionOn()
+        onSlideStart(currentIndex.current)
+      }
       if (key === 'ArrowRight' && currentIndex.current < children.length - 1) {
         currentIndex.current += 1
       }

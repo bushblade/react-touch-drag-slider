@@ -59,6 +59,11 @@ export default App
 |scale | Boolean | true | scale on drag or not
 |transition | Number | 0.3 | Transition delay in seconds
 
+
+## Examples
+
+[With buttons - CodeSandbox](https://codesandbox.io/s/react-touch-drag-slider-example-04cdz?file=/src/App.js)
+
 ## License
 
 MIT © [bushblade](https://github.com/bushblade)

@@ -56,7 +56,6 @@ export default App
 |onSlideStart | (startIndex) => startIndex | null | function that gets called on start
 |activeIndex | Number | 0 | set to start on this index or use state to update the current index
 |threshHold | Number | 100 | pixel value that must be dragged before slide snaps to position
-|scale | Boolean | true | scale on drag or not
 |transition | Number | 0.3 | Transition delay in seconds
 
 

@@ -113,7 +113,7 @@ function Slider({
 
   function touchStart(index) {
     return function (event) {
-      transitionOff()
+      transitionOn()
       currentIndex.current = index
       startPos.current = getPositionX(event)
       dragging.current = true

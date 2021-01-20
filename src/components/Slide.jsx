@@ -38,6 +38,7 @@ function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
       className='SlideStyles'
     >
       <div
+        unselectable='on'
         className='slide-inner'
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
@@ -47,6 +48,7 @@ function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
         onDragStart={(e) => {
           e.preventDefault()
           e.stopPropagation()
+          return false
         }}
       >
         {child}

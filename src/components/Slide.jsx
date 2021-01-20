@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import React, { useEffect, useRef, useState } from 'react'
+import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types'
 
 const SlideStyles = styled.div`
+  transition: transform 0.2s ease-out;
   div {
     padding: 1rem;
     height: 100%;
@@ -22,7 +23,7 @@ function preventDefaultDrag(e) {
   e.preventDefault()
 }
 
-function Slide({ child, sliderWidth, sliderHeight }) {
+function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
   // remove default image drag
   // find any images in the slide and prevent default drag
   const slideRef = useRef('slide')
@@ -37,6 +38,14 @@ function Slide({ child, sliderWidth, sliderHeight }) {
       })
     }
   })
+
+  const onMouseDown = () => {
+    if (scaleOnDrag) slideRef.current.style.transform = 'scale(0.9)'
+  }
+
+  const onMouseUp = () => {
+    if (scaleOnDrag) slideRef.current.style.transform = 'scale(1)'
+  }
   return (
     <SlideStyles
       ref={slideRef}
@@ -44,7 +53,16 @@ function Slide({ child, sliderWidth, sliderHeight }) {
       sliderHeight={`${sliderHeight}px`}
       className='SlideStyles'
     >
-      <div className='slide-inner'>{child}</div>
+      <div
+        className='slide-inner'
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onTouchStart={onMouseDown}
+        onTouchEnd={onMouseUp}
+        onMouseLeave={onMouseUp}
+      >
+        {child}
+      </div>
     </SlideStyles>
   )
 }
@@ -53,6 +71,7 @@ Slide.propTypes = {
   child: PropTypes.element.isRequired,
   sliderWidth: PropTypes.number.isRequired,
   sliderHeight: PropTypes.number.isRequired,
+  scaleOnDrag: PropTypes.bool,
 }
 
 export default Slide

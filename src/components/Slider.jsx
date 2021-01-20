@@ -38,6 +38,7 @@ function Slider({
   activeIndex = null,
   threshHold = 100,
   transition = 0.3,
+  scaleOnDrag = false,
 }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
@@ -195,6 +196,7 @@ function Slider({
                 child={child}
                 sliderWidth={dimensions.width}
                 sliderHeight={dimensions.height}
+                scaleOnDrag={scaleOnDrag}
               />
             </div>
           )
@@ -211,7 +213,7 @@ Slider.propTypes = {
   activeIndex: PropTypes.number,
   threshHold: PropTypes.number,
   transition: PropTypes.number,
-  scale: PropTypes.bool,
+  scaleOnDrag: PropTypes.bool,
 }
 
 export default Slider

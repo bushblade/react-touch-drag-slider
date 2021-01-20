@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import styled, { css } from 'styled-components'
+import React, { useRef } from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const SlideStyles = styled.div`
@@ -19,25 +19,10 @@ const SlideStyles = styled.div`
   }
 `
 
-function preventDefaultDrag(e) {
-  e.preventDefault()
-}
-
 function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
   // remove default image drag
   // find any images in the slide and prevent default drag
   const slideRef = useRef('slide')
-  useEffect(() => {
-    const images = slideRef.current.querySelectorAll('img')
-    images.forEach((img) => {
-      img.addEventListener('dragstart', preventDefaultDrag)
-    })
-    return function () {
-      images.forEach((img) => {
-        img.removeEventListener('dragstart', preventDefaultDrag)
-      })
-    }
-  })
 
   const onMouseDown = () => {
     if (scaleOnDrag) slideRef.current.style.transform = 'scale(0.9)'
@@ -60,6 +45,10 @@ function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
         onTouchStart={onMouseDown}
         onTouchEnd={onMouseUp}
         onMouseLeave={onMouseUp}
+        onDragStart={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       >
         {child}
       </div>

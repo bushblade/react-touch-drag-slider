@@ -12,6 +12,7 @@ const SlideStyles = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
   }
   img {
     max-width: 100%;
@@ -20,8 +21,6 @@ const SlideStyles = styled.div`
 `
 
 function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
-  // remove default image drag
-  // find any images in the slide and prevent default drag
   const slideRef = useRef('slide')
 
   const onMouseDown = () => {

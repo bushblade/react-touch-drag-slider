@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const SlideStyles = styled.div`
+  transition: transform 0.2s ease-out;
   div {
     padding: 1rem;
     height: 100%;
@@ -11,6 +12,7 @@ const SlideStyles = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
   }
   img {
     max-width: 100%;
@@ -18,25 +20,16 @@ const SlideStyles = styled.div`
   }
 `
 
-function preventDefaultDrag(e) {
-  e.preventDefault()
-}
-
-function Slide({ child, sliderWidth, sliderHeight }) {
-  // remove default image drag
-  // find any images in the slide and prevent default drag
+function Slide({ child, sliderWidth, sliderHeight, scaleOnDrag = false }) {
   const slideRef = useRef('slide')
-  useEffect(() => {
-    const images = slideRef.current.querySelectorAll('img')
-    images.forEach((img) => {
-      img.addEventListener('dragstart', preventDefaultDrag)
-    })
-    return function () {
-      images.forEach((img) => {
-        img.removeEventListener('dragstart', preventDefaultDrag)
-      })
-    }
-  })
+
+  const onMouseDown = () => {
+    if (scaleOnDrag) slideRef.current.style.transform = 'scale(0.9)'
+  }
+
+  const onMouseUp = () => {
+    if (scaleOnDrag) slideRef.current.style.transform = 'scale(1)'
+  }
   return (
     <SlideStyles
       ref={slideRef}
@@ -44,7 +37,22 @@ function Slide({ child, sliderWidth, sliderHeight }) {
       sliderHeight={`${sliderHeight}px`}
       className='SlideStyles'
     >
-      <div className='slide-inner'>{child}</div>
+      <div
+        unselectable='on'
+        className='slide-inner'
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onTouchStart={onMouseDown}
+        onTouchEnd={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onDragStart={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          return false
+        }}
+      >
+        {child}
+      </div>
     </SlideStyles>
   )
 }
@@ -53,6 +61,7 @@ Slide.propTypes = {
   child: PropTypes.element.isRequired,
   sliderWidth: PropTypes.number.isRequired,
   sliderHeight: PropTypes.number.isRequired,
+  scaleOnDrag: PropTypes.bool,
 }
 
 export default Slide

@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Slide from './Slide'
@@ -69,7 +75,7 @@ function Slider({
   // set width after first render
   // set position by startIndex
   // no animation on startIndex
-  useEffect(() => {
+  useLayoutEffect(() => {
     setDimensions(getElementDimensions(sliderRef))
 
     setPositionByIndex(getElementDimensions(sliderRef).width)

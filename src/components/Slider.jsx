@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import Slide from './Slide'
 import { getElementDimensions, getPositionX } from '../utils'

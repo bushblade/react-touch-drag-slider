@@ -16,7 +16,8 @@
     "react-touch-drag-slider": "file:.."
   },
   "devDependencies": {
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
+    "babel-plugin-styled-components": "^1.12.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,5 +27,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "babel": {
+    "plugins": [
+      "babel-plugin-styled-components"
+    ]
+  }
 }

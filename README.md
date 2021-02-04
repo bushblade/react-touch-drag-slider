@@ -6,6 +6,7 @@
 - Responsive to viewport resizing
 - Supports mouse drag by default
 - Simple API
+- Sizes to any size parent container
 
 ## Install
 
@@ -19,12 +20,13 @@ npm install --save react-touch-drag-slider
 import React from 'react'
 import Slider from 'react-touch-drag-slider'
 
+// here we are importing some images 
+// but the Slider children can be an array of any element nodes, or your own components
 import images from './images'
 
 function App() {
 
   return (
-    <>
         <Slider
           onSlideComplete={(i) => {
             console.log('finished dragging, current slide is', i)
@@ -41,7 +43,6 @@ function App() {
             <img src={url} key={index} alt={title} />
           ))}
         </Slider>
-    </>
   )
 }
 
@@ -61,8 +62,11 @@ export default App
 
 
 ## Examples
+ Most basic example with no props - [CodeSandBox link](https://codesandbox.io/s/react-touch-drag-slider-example-basic-ttohy?file=/src/App.js)
 
-[With buttons - CodeSandbox](https://codesandbox.io/s/react-touch-drag-slider-example-04cdz?file=/src/App.js)
+ With props, local state and buttons (you provide the buttons) - [CodeSandbox link](https://codesandbox.io/s/react-touch-drag-slider-example-04cdz?file=/src/App.js)
+
+ For example of use in a full screen modal with a gallery, please checkout any of the galleries in [Bushblade Knives](https://bushblade.co.uk)
 
 ## License
 

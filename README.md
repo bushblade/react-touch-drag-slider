@@ -2,6 +2,8 @@
 
 > Touch and drag slider carousel component for React
 
+![Slider Gif](./touch-slider-001.gif)
+
 - Touch friendly on mobile
 - Responsive to viewport resizing
 - Supports mouse drag by default

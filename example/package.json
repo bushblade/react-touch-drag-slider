@@ -13,7 +13,8 @@
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
     "react-scripts": "file:../node_modules/react-scripts",
-    "react-touch-drag-slider": "file:.."
+    "react-touch-drag-slider": "file:..",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",

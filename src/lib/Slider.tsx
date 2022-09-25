@@ -87,6 +87,7 @@ function Slider({
   // no animation on startIndex
   useLayoutEffect(() => {
     if (sliderRef.current) {
+      transitionOff()
       setDimensions(getElementDimensions(sliderRef.current))
 
       setPositionByIndex(getElementDimensions(sliderRef.current).width)

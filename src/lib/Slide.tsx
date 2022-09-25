@@ -1,21 +1,5 @@
 import React, { useRef } from 'react'
-import styled from 'styled-components'
-
-const SlideStyles = styled.div`
-  transition: transform 0.2s ease-out;
-  div {
-    padding: 1rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-  }
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-`
+import './Slide.styles.css'
 
 interface SlideProps {
   child: JSX.Element
@@ -42,13 +26,13 @@ function Slide({
       slideRef.current.style.transform = 'scale(1)'
   }
   return (
-    <SlideStyles
+    <div
       ref={slideRef}
       style={{
         width: `${sliderWidth}px`,
         height: `${sliderHeight}px`,
       }}
-      className='SlideStyles'
+      className='rtds-single-slide-styles'
     >
       <div
         unselectable='on'
@@ -66,7 +50,7 @@ function Slide({
       >
         {child}
       </div>
-    </SlideStyles>
+    </div>
   )
 }
 

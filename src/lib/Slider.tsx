@@ -5,30 +5,10 @@ import React, {
   useEffect,
   useCallback,
 } from 'react'
-import styled from 'styled-components'
 import Slide from './Slide'
 import { getElementDimensions, getPositionX } from '../utils'
+import './Slider.styles.css'
 
-const SliderStyles = styled.div`
-  all: initial;
-  width: 100%;
-  height: 100%;
-  max-height: 100vh;
-  display: inline-flex;
-  will-change: transform, scale;
-  cursor: grab;
-  .slide-outer {
-    display: flex;
-    align-items: center;
-  }
-`
-
-const SliderWrapper = styled.div`
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  max-height: 100vh;
-`
 interface SliderProps {
   children: JSX.Element[]
   onSlideComplete?: (index: number) => void
@@ -190,8 +170,8 @@ function Slider({
   }
 
   return (
-    <SliderWrapper className='SliderWrapper'>
-      <SliderStyles ref={sliderRef} className='SliderStyles'>
+    <div className='rtds-slider-wrapper'>
+      <div ref={sliderRef} className='rtds-slider-styles'>
         {children.map((child, index) => {
           return (
             <div
@@ -220,8 +200,8 @@ function Slider({
             </div>
           )
         })}
-      </SliderStyles>
-    </SliderWrapper>
+      </div>
+    </div>
   )
 }
 

@@ -54,17 +54,15 @@ function Slider({
   const startPos = useRef(0)
   const currentTranslate = useRef(0)
   const prevTranslate = useRef(0)
-  const currentIndex = useRef<number | null>(activeIndex ? activeIndex : 0)
+  const currentIndex = useRef<number | null>(0)
   const sliderRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
 
   const setPositionByIndex = useCallback(
     (w = dimensions.width) => {
-      if (currentIndex.current) {
-        currentTranslate.current = currentIndex.current * -w
-        prevTranslate.current = currentTranslate.current
-        setSliderPosition()
-      }
+      currentTranslate.current = currentIndex.current! * -w
+      prevTranslate.current = currentTranslate.current
+      setSliderPosition()
     },
     [dimensions.width]
   )
@@ -111,20 +109,20 @@ function Slider({
     }
 
     const handleKeyDown = ({ key }: KeyboardEvent) => {
-      if (!currentIndex.current) return
+      // HACK: Non-Null Assertion operator
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
       if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
-        onSlideStart(currentIndex.current)
+        onSlideStart(currentIndex.current!)
       }
-      if (key === 'ArrowRight' && currentIndex.current < children.length - 1) {
-        currentIndex.current += 1
+      if (key === 'ArrowRight' && currentIndex.current! < children.length - 1) {
+        currentIndex.current! += 1
       }
-      if (key === 'ArrowLeft' && currentIndex.current > 0) {
-        currentIndex.current -= 1
+      if (key === 'ArrowLeft' && currentIndex.current! > 0) {
+        currentIndex.current! -= 1
       }
       if (arrowsPressed && onSlideComplete)
-        onSlideComplete(currentIndex.current)
+        onSlideComplete(currentIndex.current!)
       setPositionByIndex()
     }
 
@@ -139,13 +137,12 @@ function Slider({
 
   function touchStart(index: number) {
     return function (event: React.TouchEvent | React.MouseEvent) {
-      if (!sliderRef.current) return
       transitionOn()
       currentIndex.current = index
       startPos.current = getPositionX(event)
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
-      sliderRef.current.style.cursor = 'grabbing'
+      if (sliderRef.current) sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
       if (onSlideStart) onSlideStart(currentIndex.current)
     }
@@ -160,27 +157,26 @@ function Slider({
   }
 
   function touchEnd() {
-    if (!animationRef.current || !currentIndex.current || !sliderRef.current)
-      return
+    // HACK: Non-Null Assertion operator
     transitionOn()
-    cancelAnimationFrame(animationRef.current)
+    cancelAnimationFrame(animationRef.current!)
     dragging.current = false
     const movedBy = currentTranslate.current - prevTranslate.current
 
     // if moved enough negative then snap to next slide if there is one
-    if (movedBy < -threshHold && currentIndex.current < children.length - 1)
-      currentIndex.current += 1
+    if (movedBy < -threshHold && currentIndex.current! < children.length - 1)
+      currentIndex.current! += 1
 
     // if moved enough positive then snap to previous slide if there is one
-    if (movedBy > threshHold && currentIndex.current > 0)
-      currentIndex.current -= 1
+    if (movedBy > threshHold && currentIndex.current! > 0)
+      currentIndex.current! -= 1
 
     transitionOn()
 
     setPositionByIndex()
-    sliderRef.current.style.cursor = 'grab'
+    sliderRef.current!.style.cursor = 'grab'
     // if onSlideComplete prop - call it
-    if (onSlideComplete) onSlideComplete(currentIndex.current)
+    if (onSlideComplete) onSlideComplete(currentIndex.current!)
   }
 
   function animation() {

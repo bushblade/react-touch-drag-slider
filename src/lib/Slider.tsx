@@ -19,6 +19,23 @@ interface SliderProps {
   scaleOnDrag?: boolean
 }
 
+/**
+ *
+ * @param props.children - An array of valid React Children
+ * @param props.onSlideComplete - An optional function that will be called when
+ * the slide is in it's finished position
+ * @param props.onSlideStart - An optional function that will be called when the
+ * slide starts it's movement
+ * @param props.activeIndex - Use to set the starting index or to upate the
+ * current shown slide
+ * @param props.threshHold - A pixel value that must be dragged before slide
+ * snaps into place
+ * @param props.transition - The transition delay in seconds
+ * @param props.scaleOnDrag - Choose if the slide should have a scale animation
+ * while moving
+ *
+ */
+
 function Slider({
   children,
   onSlideComplete,
@@ -47,10 +64,10 @@ function Slider({
     [dimensions.width]
   )
 
-  const transitionOn = () => {
+  const transitionOn = useCallback(() => {
     if (sliderRef.current)
       sliderRef.current.style.transition = `transform ${transition}s ease-out`
-  }
+  }, [transition])
 
   const transitionOff = () => {
     if (sliderRef.current) sliderRef.current.style.transition = 'none'
@@ -63,7 +80,7 @@ function Slider({
       currentIndex.current = activeIndex
       setPositionByIndex()
     }
-  }, [activeIndex, setPositionByIndex])
+  }, [activeIndex, setPositionByIndex, transitionOn])
 
   // set width after first render
   // set position by startIndex
@@ -113,7 +130,13 @@ function Slider({
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [children.length, setPositionByIndex, onSlideComplete, onSlideStart])
+  }, [
+    children.length,
+    setPositionByIndex,
+    onSlideComplete,
+    onSlideStart,
+    transitionOn,
+  ])
 
   function touchStart(index: number) {
     return function (event: React.TouchEvent | React.MouseEvent) {

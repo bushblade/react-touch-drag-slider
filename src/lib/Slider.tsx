@@ -5,8 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react'
-import styled from 'styled-components/macro'
-import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import Slide from './Slide'
 import { getElementDimensions, getPositionX } from '../utils'
 
@@ -30,6 +29,15 @@ const SliderWrapper = styled.div`
   height: 100%;
   max-height: 100vh;
 `
+interface SliderProps {
+  children: JSX.Element[]
+  onSlideComplete?: (index: number) => void
+  onSlideStart?: (index: number) => void
+  activeIndex?: number | null
+  threshHold?: number
+  transition?: number
+  scaleOnDrag?: boolean
+}
 
 function Slider({
   children,
@@ -39,30 +47,36 @@ function Slider({
   threshHold = 100,
   transition = 0.3,
   scaleOnDrag = false,
-}) {
+}: SliderProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   const dragging = useRef(false)
   const startPos = useRef(0)
   const currentTranslate = useRef(0)
   const prevTranslate = useRef(0)
-  const currentIndex = useRef(activeIndex || 0)
-  const sliderRef = useRef('slider')
-  const animationRef = useRef(null)
+  const currentIndex = useRef<number | null>(activeIndex ? activeIndex : 0)
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const animationRef = useRef<number | null>(null)
 
   const setPositionByIndex = useCallback(
     (w = dimensions.width) => {
-      currentTranslate.current = currentIndex.current * -w
-      prevTranslate.current = currentTranslate.current
-      setSliderPosition()
+      if (currentIndex.current) {
+        currentTranslate.current = currentIndex.current * -w
+        prevTranslate.current = currentTranslate.current
+        setSliderPosition()
+      }
     },
     [dimensions.width]
   )
 
-  const transitionOn = () =>
-    (sliderRef.current.style.transition = `transform ${transition}s ease-out`)
+  const transitionOn = () => {
+    if (sliderRef.current)
+      sliderRef.current.style.transition = `transform ${transition}s ease-out`
+  }
 
-  const transitionOff = () => (sliderRef.current.style.transition = 'none')
+  const transitionOff = () => {
+    if (sliderRef.current) sliderRef.current.style.transition = 'none'
+  }
 
   // watch for a change in activeIndex prop
   useEffect(() => {
@@ -77,9 +91,11 @@ function Slider({
   // set position by startIndex
   // no animation on startIndex
   useLayoutEffect(() => {
-    setDimensions(getElementDimensions(sliderRef))
+    if (sliderRef.current) {
+      setDimensions(getElementDimensions(sliderRef.current))
 
-    setPositionByIndex(getElementDimensions(sliderRef).width)
+      setPositionByIndex(getElementDimensions(sliderRef.current).width)
+    }
   }, [setPositionByIndex])
 
   // add event listeners
@@ -87,12 +103,15 @@ function Slider({
     // set width if window resizes
     const handleResize = () => {
       transitionOff()
-      const { width, height } = getElementDimensions(sliderRef)
-      setDimensions({ width, height })
-      setPositionByIndex(width)
+      if (sliderRef.current) {
+        const { width, height } = getElementDimensions(sliderRef.current)
+        setDimensions({ width, height })
+        setPositionByIndex(width)
+      }
     }
 
-    const handleKeyDown = ({ key }) => {
+    const handleKeyDown = ({ key }: KeyboardEvent) => {
+      if (!currentIndex.current) return
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
       if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
@@ -118,8 +137,9 @@ function Slider({
     }
   }, [children.length, setPositionByIndex, onSlideComplete, onSlideStart])
 
-  function touchStart(index) {
-    return function (event) {
+  function touchStart(index: number) {
+    return function (event: React.TouchEvent | React.MouseEvent) {
+      if (!sliderRef.current) return
       transitionOn()
       currentIndex.current = index
       startPos.current = getPositionX(event)
@@ -131,7 +151,7 @@ function Slider({
     }
   }
 
-  function touchMove(event) {
+  function touchMove(event: React.TouchEvent | React.MouseEvent) {
     if (dragging.current) {
       const currentPosition = getPositionX(event)
       currentTranslate.current =
@@ -140,6 +160,8 @@ function Slider({
   }
 
   function touchEnd() {
+    if (!animationRef.current || !currentIndex.current || !sliderRef.current)
+      return
     transitionOn()
     cancelAnimationFrame(animationRef.current)
     dragging.current = false
@@ -167,6 +189,7 @@ function Slider({
   }
 
   function setSliderPosition() {
+    if (!sliderRef.current) return
     sliderRef.current.style.transform = `translateX(${currentTranslate.current}px)`
   }
 
@@ -204,16 +227,6 @@ function Slider({
       </SliderStyles>
     </SliderWrapper>
   )
-}
-
-Slider.propTypes = {
-  children: PropTypes.node.isRequired,
-  onSlideComplete: PropTypes.func,
-  onSlideStart: PropTypes.func,
-  activeIndex: PropTypes.number,
-  threshHold: PropTypes.number,
-  transition: PropTypes.number,
-  scaleOnDrag: PropTypes.bool,
 }
 
 export default Slider

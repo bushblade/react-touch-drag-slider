@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  height: 100vh;
+  width: 100vw;
+}
+
+.btn {
+  font-size: 2rem;
+  z-index: 10;
+  position: fixed;
+  top: 50%;
+}
+
+.left {
+  left: 0.5rem;
+}
+
+.right {
+  right: 0.5rem;
+}

@@ -82,14 +82,14 @@ function Slider({
     }
   }, [activeIndex, setPositionByIndex, transitionOn])
 
-  // set width after first render
-  // set position by startIndex
-  // no animation on startIndex
   useLayoutEffect(() => {
     if (sliderRef.current) {
+      // no animation on startIndex
       transitionOff()
+      // set width after first render
       setDimensions(getElementDimensions(sliderRef.current))
 
+      // set position by startIndex
       setPositionByIndex(getElementDimensions(sliderRef.current).width)
     }
   }, [setPositionByIndex])

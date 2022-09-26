@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Slider } from './lib'
+import Slider from './lib'
 // import styled, { createGlobalStyle, css } from 'styled-components'
 import images from './images'
 import './style.css'

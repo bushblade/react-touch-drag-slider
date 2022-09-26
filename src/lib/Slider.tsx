@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from 'react'
 import Slide from './Slide'
-import { getElementDimensions, getPositionX } from '../utils'
+import { getElementDimensions } from '../utils'
 import './Slider.styles.css'
 
 interface SliderProps {
@@ -139,11 +139,11 @@ function Slider({
     transitionOn,
   ])
 
-  function touchStart(index: number) {
-    return function (event: React.TouchEvent | React.MouseEvent) {
+  function pointerStart(index: number) {
+    return function (event: React.PointerEvent) {
       transitionOn()
       currentIndex.current = index
-      startPos.current = getPositionX(event)
+      startPos.current = event.pageX
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
       if (sliderRef.current) sliderRef.current.style.cursor = 'grabbing'
@@ -152,15 +152,15 @@ function Slider({
     }
   }
 
-  function touchMove(event: React.TouchEvent | React.MouseEvent) {
+  function pointerMove(event: React.PointerEvent) {
     if (dragging.current) {
-      const currentPosition = getPositionX(event)
+      const currentPosition = event.pageX
       currentTranslate.current =
         prevTranslate.current + currentPosition - startPos.current
     }
   }
 
-  function touchEnd() {
+  function pointerEnd() {
     // HACK: Non-Null Assertion operator
     transitionOn()
     cancelAnimationFrame(animationRef.current!)
@@ -200,14 +200,11 @@ function Slider({
           return (
             <div
               key={child.key}
-              onTouchStart={touchStart(index)}
-              onMouseDown={touchStart(index)}
-              onTouchMove={touchMove}
-              onMouseMove={touchMove}
-              onTouchEnd={touchEnd}
-              onMouseUp={touchEnd}
-              onMouseLeave={() => {
-                if (dragging.current) touchEnd()
+              onPointerDown={pointerStart(index)}
+              onPointerMove={pointerMove}
+              onPointerUp={pointerEnd}
+              onPointerLeave={() => {
+                if (dragging.current) pointerEnd()
               }}
               onContextMenu={(e) => {
                 e.preventDefault()

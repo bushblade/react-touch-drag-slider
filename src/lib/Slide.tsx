@@ -16,12 +16,12 @@ function Slide({
 }: SlideProps) {
   const slideRef = useRef<HTMLDivElement>(null)
 
-  const onMouseDown = () => {
+  const onPointerDown = () => {
     if (scaleOnDrag && slideRef.current)
       slideRef.current.style.transform = 'scale(0.9)'
   }
 
-  const onMouseUp = () => {
+  const onPointerUp = () => {
     if (scaleOnDrag && slideRef.current)
       slideRef.current.style.transform = 'scale(1)'
   }
@@ -35,13 +35,10 @@ function Slide({
       className='rtds-single-slide-styles'
     >
       <div
-        unselectable='on'
         className='slide-inner'
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onTouchStart={onMouseDown}
-        onTouchEnd={onMouseUp}
-        onMouseLeave={onMouseUp}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerUp}
         onDragStart={(e) => {
           e.preventDefault()
           e.stopPropagation()

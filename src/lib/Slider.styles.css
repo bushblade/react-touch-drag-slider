@@ -8,6 +8,10 @@
   cursor: grab;
 }
 
+.rtds-slider-styles .slide-outer {
+  touch-action: none;
+}
+
 .react-touch-drag-slider-slider-styles .slide-outer {
   display: flex;
   align-items: center;

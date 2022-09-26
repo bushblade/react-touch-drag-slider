@@ -21,7 +21,7 @@ npm i react-touch-drag-slider
 
 ```jsx
 import React from 'react'
-import { Slider } from 'react-touch-drag-slider'
+import Slider from 'react-touch-drag-slider'
 
 // here we are importing some images
 // but the Slider children can be an array of any element nodes, or your own components

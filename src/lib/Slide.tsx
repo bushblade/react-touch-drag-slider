@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import './Slide.styles.css'
+// import './Slide.styles.css'
 
 interface SlideProps {
   child: JSX.Element
@@ -31,11 +31,19 @@ function Slide({
       style={{
         width: `${sliderWidth}px`,
         height: `${sliderHeight}px`,
+        transition: 'transform 0.2s ease-out',
       }}
       className='rtds-single-slide-styles'
     >
       <div
-        className='slide-inner'
+        style={{
+          padding: '1rem',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          userSelect: 'none',
+        }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}

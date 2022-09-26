@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import Slide from './Slide'
 import { getElementDimensions } from '../utils'
-import './Slider.styles.css'
+// import './Slider.styles.css'
 
 interface SliderProps {
   children: JSX.Element[]
@@ -194,8 +194,28 @@ function Slider({
   }
 
   return (
-    <div className='rtds-slider-wrapper'>
-      <div ref={sliderRef} className='rtds-slider-styles'>
+    <div
+      className='rtds-slider-wrapper'
+      style={{
+        overflow: 'hidden',
+        width: '100%',
+        height: '100%',
+        maxHeight: '100vh',
+      }}
+    >
+      <div
+        ref={sliderRef}
+        className='rtds-slider-styles'
+        style={{
+          all: 'initial',
+          width: '100%',
+          height: '100%',
+          maxHeight: '100vh',
+          display: 'inline-flex',
+          willChange: 'transform, scale',
+          cursor: 'grab',
+        }}
+      >
         {children.map((child, index) => {
           return (
             <div
@@ -211,6 +231,9 @@ function Slider({
                 e.stopPropagation()
               }}
               className='slide-outer'
+              style={{
+                touchAction: 'none',
+              }}
             >
               <Slide
                 child={child}

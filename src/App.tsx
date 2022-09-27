@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Slider from './lib'
-// import styled, { createGlobalStyle, css } from 'styled-components'
 import images from './images'
 import './style.css'
 
@@ -41,12 +40,7 @@ function App() {
           scaleOnDrag={true}
         >
           {images.map(({ url, title }, index) => (
-            <img
-              src={url}
-              key={index}
-              alt={title}
-              style={{ maxWidth: '100%', maxHeight: '100%' }}
-            />
+            <img src={url} key={index} alt={title} />
           ))}
         </Slider>
       </main>

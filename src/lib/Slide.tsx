@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-// import './Slide.styles.css'
 
 interface SlideProps {
   child: JSX.Element
@@ -7,6 +6,8 @@ interface SlideProps {
   sliderHeight: number
   scaleOnDrag?: boolean
 }
+
+const css = String.raw
 
 function Slide({
   child,
@@ -26,36 +27,46 @@ function Slide({
       slideRef.current.style.transform = 'scale(1)'
   }
   return (
-    <div
-      ref={slideRef}
-      style={{
-        width: `${sliderWidth}px`,
-        height: `${sliderHeight}px`,
-        transition: 'transform 0.2s ease-out',
-      }}
-      className='rtds-single-slide-styles'
-    >
+    <>
+      <style>
+        {css`
+          .rtds-single-slide-styles img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        `}
+      </style>
       <div
+        ref={slideRef}
         style={{
-          padding: '1rem',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          userSelect: 'none',
+          width: `${sliderWidth}px`,
+          height: `${sliderHeight}px`,
+          transition: 'transform 0.2s ease-out',
         }}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
-        onDragStart={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          return false
-        }}
+        className='rtds-single-slide-styles'
       >
-        {child}
+        <div
+          style={{
+            padding: '1rem',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            userSelect: 'none',
+          }}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
+          onDragStart={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            return false
+          }}
+        >
+          {child}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

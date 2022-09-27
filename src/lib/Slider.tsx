@@ -7,7 +7,6 @@ import React, {
 } from 'react'
 import Slide from './Slide'
 import { getElementDimensions } from '../utils'
-// import './Slider.styles.css'
 
 interface SliderProps {
   children: JSX.Element[]

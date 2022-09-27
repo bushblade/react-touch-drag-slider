@@ -42,12 +42,7 @@ function App() {
       scaleOnDrag={true}
     >
       {images.map(({ url, title }, index) => (
-        <img
-          src={url}
-          key={index}
-          alt={title}
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
-        />
+        <img src={url} key={index} alt={title} />
       ))}
     </Slider>
   )

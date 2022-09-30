@@ -203,6 +203,7 @@ function Slider({
       }}
     >
       <div
+        data-testid='slider'
         ref={sliderRef}
         className='rtds-slider-styles'
         style={{

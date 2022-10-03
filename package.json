@@ -5,6 +5,18 @@
   "author": "bushblade",
   "license": "MIT",
   "repository": "bushblade/react-touch-drag-slider",
+  "keywords": [
+    "pointer",
+    "mouse",
+    "swipe",
+    "slider",
+    "touch",
+    "mobile",
+    "carousel",
+    "gallery",
+    "svelte",
+    "slideshow"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite --host",

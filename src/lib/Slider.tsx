@@ -194,7 +194,6 @@ function Slider({
 
   return (
     <div
-      className='rtds-slider-wrapper'
       style={{
         overflow: 'hidden',
         width: '100%',
@@ -205,7 +204,6 @@ function Slider({
       <div
         data-testid='slider'
         ref={sliderRef}
-        className='rtds-slider-styles'
         style={{
           all: 'initial',
           width: '100%',

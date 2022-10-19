@@ -9,7 +9,7 @@
 - Supports mouse drag by default
 - Simple API
 - Sizes to any size parent container
-- small bundle size with minimal dependencies
+- small bundle size with zero dependencies
 
 ## Install
 
@@ -24,7 +24,9 @@ import React from 'react'
 import Slider from 'react-touch-drag-slider'
 
 // here we are importing some images
-// but the Slider children can be an array of any element nodes, or your own components
+// but the Slider children can be an array of any element nodes,
+// or your own components
+
 import images from './images'
 
 function App() {

@@ -82,6 +82,15 @@ function Slider({
     }
   }, [activeIndex, setPositionByIndex, transitionOn])
 
+  // automatically decrease internal index when the last child gets deleted
+  useEffect(() => {
+    if (!activeIndex && (currentIndex.current! > Children.count(children) - 1)) {
+      transitionOn()
+      currentIndex.current = Math.max(Children.count(children) - 1, 0)
+      setPositionByIndex()
+    }
+  }, [activeIndex, children, setPositionByIndex, transitionOn])
+
   useLayoutEffect(() => {
     if (sliderRef.current) {
       // no animation on startIndex

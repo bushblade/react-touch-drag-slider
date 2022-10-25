@@ -4,6 +4,7 @@ import React, {
   useLayoutEffect,
   useEffect,
   useCallback,
+  Children,
 } from 'react'
 import Slide from './Slide'
 import { getElementDimensions } from '../utils'
@@ -112,7 +113,7 @@ function Slider({
       if (arrowsPressed && onSlideStart) {
         onSlideStart(currentIndex.current!)
       }
-      if (key === 'ArrowRight' && currentIndex.current! < children.length - 1) {
+      if (key === 'ArrowRight' && currentIndex.current! < Children.count(children) - 1) {
         currentIndex.current! += 1
       }
       if (key === 'ArrowLeft' && currentIndex.current! > 0) {
@@ -131,7 +132,7 @@ function Slider({
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [
-    children.length,
+    children,
     setPositionByIndex,
     onSlideComplete,
     onSlideStart,
@@ -167,7 +168,7 @@ function Slider({
     const movedBy = currentTranslate.current - prevTranslate.current
 
     // if moved enough negative then snap to next slide if there is one
-    if (movedBy < -threshHold && currentIndex.current! < children.length - 1)
+    if (movedBy < -threshHold && currentIndex.current! < Children.count(children) - 1)
       currentIndex.current! += 1
 
     // if moved enough positive then snap to previous slide if there is one
@@ -214,7 +215,7 @@ function Slider({
           cursor: 'grab',
         }}
       >
-        {children.map((child, index) => {
+        {Children.map(children, (child, index) => {
           return (
             <div
               key={child.key}

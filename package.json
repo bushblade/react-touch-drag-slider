@@ -22,7 +22,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "lint": "biome lint src/**/*.{ts,tsx}"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -33,6 +34,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
     "@testing-library/react": "^14.1.2",
     "@types/jsdom": "^21.1.6",
     "@types/react": "^18.2.43",
@@ -51,9 +53,7 @@
     "vite-plugin-dts": "^3.6.4",
     "vitest": "^1.0.4"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "module": "./dist/lib.es.js",
   "types": "./dist/lib/index.d.ts",
   "main": "./dist/lib.es.js",

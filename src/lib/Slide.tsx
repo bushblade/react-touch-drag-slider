@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import type { ReactElement } from 'react'
+import { useRef } from 'react'
 
 interface SlideProps {
-  child: JSX.Element
+  child: ReactElement
   sliderWidth: number
   sliderHeight: number
   scaleOnDrag?: boolean
@@ -43,8 +44,9 @@ function Slide({
           height: `${sliderHeight}px`,
           transition: 'transform 0.2s ease-out',
         }}
-        className='rtds-single-slide-styles'
+        className="rtds-single-slide-styles"
       >
+        {/** biome-ignore lint/a11y/noStaticElementInteractions: <explanation> this element should not be focusable */}
         <div
           style={{
             padding: '1rem',
@@ -57,7 +59,7 @@ function Slide({
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
-          onDragStart={(e) => {
+          onDragStart={e => {
             e.preventDefault()
             e.stopPropagation()
             return false

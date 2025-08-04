@@ -17,34 +17,38 @@ function App() {
   }
 
   return (
-    <>
-      <main>
-        <button className='btn left' onClick={decrement} disabled={index === 0}>
-          〈
-        </button>
-        <button
-          className='btn right'
-          onClick={increment}
-          disabled={index === images.length - 1}
-        >
-          〉
-        </button>
-        <Slider
-          onSlideComplete={setIndex}
-          onSlideStart={(i: number) => {
-            console.log('started dragging on slide', i)
-          }}
-          activeIndex={index}
-          threshHold={100}
-          transition={0.3}
-          scaleOnDrag={true}
-        >
-          {images.map(({ url, title }, index) => (
-            <img src={url} key={index} alt={title} />
-          ))}
-        </Slider>
-      </main>
-    </>
+    <main>
+      <button
+        type="button"
+        className="btn left"
+        onClick={decrement}
+        disabled={index === 0}
+      >
+        〈
+      </button>
+      <button
+        type="button"
+        className="btn right"
+        onClick={increment}
+        disabled={index === images.length - 1}
+      >
+        〉
+      </button>
+      <Slider
+        onSlideComplete={setIndex}
+        onSlideStart={(i: number) => {
+          console.log('started dragging on slide', i)
+        }}
+        activeIndex={index}
+        threshHold={100}
+        transition={0.3}
+        scaleOnDrag={true}
+      >
+        {images.map(({ url, title }) => (
+          <img src={url} key={`${title}-${url}`} alt={title} />
+        ))}
+      </Slider>
+    </main>
   )
 }
 

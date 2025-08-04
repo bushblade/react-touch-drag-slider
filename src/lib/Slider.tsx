@@ -1,15 +1,18 @@
-import React, {
+/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> they won't be
+ * null*/
+import type { ReactElement } from 'react'
+import {
   useState,
   useRef,
   useLayoutEffect,
   useEffect,
   useCallback,
 } from 'react'
-import Slide from './Slide'
 import { getElementDimensions } from '../utils'
+import Slide from './Slide'
 
 interface SliderProps {
-  children: JSX.Element[]
+  children: ReactElement[]
   onSlideComplete?: (index: number) => void
   onSlideStart?: (index: number) => void
   activeIndex?: number | null
@@ -54,13 +57,18 @@ function Slider({
   const sliderRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
 
+  const setSliderPosition = useCallback(() => {
+    if (!sliderRef.current) return
+    sliderRef.current.style.transform = `translateX(${currentTranslate.current}px)`
+  }, [])
+
   const setPositionByIndex = useCallback(
     (w = dimensions.width) => {
       currentTranslate.current = currentIndex.current! * -w
       prevTranslate.current = currentTranslate.current
       setSliderPosition()
     },
-    [dimensions.width]
+    [dimensions.width, setSliderPosition]
   )
 
   const transitionOn = useCallback(() => {
@@ -68,9 +76,9 @@ function Slider({
       sliderRef.current.style.transition = `transform ${transition}s ease-out`
   }, [transition])
 
-  const transitionOff = () => {
+  const transitionOff = useCallback(() => {
     if (sliderRef.current) sliderRef.current.style.transition = 'none'
-  }
+  }, [])
 
   // watch for a change in activeIndex prop
   useEffect(() => {
@@ -91,7 +99,7 @@ function Slider({
       // set position by startIndex
       setPositionByIndex(getElementDimensions(sliderRef.current).width)
     }
-  }, [setPositionByIndex])
+  }, [setPositionByIndex, transitionOff])
 
   // add event listeners
   useEffect(() => {
@@ -136,10 +144,11 @@ function Slider({
     onSlideComplete,
     onSlideStart,
     transitionOn,
+    transitionOff,
   ])
 
   function pointerStart(index: number) {
-    return function (event: React.PointerEvent) {
+    return (event: React.PointerEvent) => {
       transitionOn()
       currentIndex.current = index
       startPos.current = event.pageX
@@ -187,11 +196,6 @@ function Slider({
     if (dragging.current) requestAnimationFrame(animation)
   }
 
-  function setSliderPosition() {
-    if (!sliderRef.current) return
-    sliderRef.current.style.transform = `translateX(${currentTranslate.current}px)`
-  }
-
   return (
     <div
       style={{
@@ -202,8 +206,13 @@ function Slider({
       }}
     >
       <div
-        data-testid='slider'
+        data-testid="slider"
         ref={sliderRef}
+        role="slider"
+        aria-valuemin={0} // The first slide index
+        aria-valuemax={children.length - 1} // The last slide index
+        aria-valuenow={activeIndex ?? 0} // The current slide index
+        tabIndex={0}
         style={{
           all: 'initial',
           width: '100%',
@@ -216,6 +225,7 @@ function Slider({
       >
         {children.map((child, index) => {
           return (
+            // biome-ignore lint/a11y/noStaticElementInteractions: <explanation only parent should be focusable>
             <div
               key={child.key}
               onPointerDown={pointerStart(index)}
@@ -224,11 +234,11 @@ function Slider({
               onPointerLeave={() => {
                 if (dragging.current) pointerEnd()
               }}
-              onContextMenu={(e) => {
+              onContextMenu={e => {
                 e.preventDefault()
                 e.stopPropagation()
               }}
-              className='slide-outer'
+              className="slide-outer"
               style={{
                 touchAction: 'none',
               }}

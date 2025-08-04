@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import Slider from './lib'
+import { useState } from 'react'
 import images from './images'
+import Slider from './lib'
 import './style.css'
 
 // Whatever you render out in the Slider will be draggable 'slides'

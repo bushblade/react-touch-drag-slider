@@ -66,9 +66,9 @@ export default App
 
 ## Examples
 
-Most basic example with no props - [CodeSandBox link](https://codesandbox.io/s/react-touch-drag-slider-example-basic-ttohy?file=/src/App.js)
+Most basic example with no props - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-example-basic)
 
-With props, local state and buttons (you provide the buttons) - [CodeSandbox link](https://codesandbox.io/s/react-touch-drag-slider-example-04cdz?file=/src/App.js)
+With props, local state and buttons (you provide the buttons) - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-advanced-example)
 
 For example of use in a full screen modal with a gallery, please checkout any of the galleries in [Bushblade Knives](https://bushblade.co.uk)
 

@@ -22,4 +22,3 @@ yarn-debug.log*
 yarn-error.log*
 
 # Testing
-__snapshots__

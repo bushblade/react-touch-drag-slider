@@ -7,7 +7,7 @@ Each finding can be picked off independently. Mark `[x]` when resolved.
 
 - [ ] **Narrow React peer dep** — `peerDependencies.react` is `^19.1.1`. React 18 users get peer dep warnings on install. Broaden to `>=18` if no React 19-specific APIs are used (currently none are).
 
-- [ ] **Dead `styled-components` externalization** — `vite.config.ts` lists `styled-components` in `rollupOptions.external` and `output.globals`, but the library never imports it. Remove it to avoid confusion.
+- [x] **Dead `styled-components` externalization** — `vite.config.ts` lists `styled-components` in `rollupOptions.external` and `output.globals`, but the library never imports it. Remove it to avoid confusion.
 
 - [ ] **No CI workflow** — `.github/` only has `FUNDING.yml`. Add a GitHub Actions workflow that runs `pnpm lint`, `npx tsc --noEmit`, and `pnpm test` on PRs and pushes to main.
 

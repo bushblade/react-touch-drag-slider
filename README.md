@@ -68,7 +68,7 @@ export default App
 
 Most basic example with no props - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-example-basic)
 
-With props, local state and buttons (you provide the buttons) - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-advanced-example)
+With props, local state and buttons (you provide the buttons) - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-advanced-example?file=src/App.jsx)
 
 For example of use in a full screen modal with a gallery, please checkout any of the galleries in [Bushblade Knives](https://bushblade.co.uk)
 

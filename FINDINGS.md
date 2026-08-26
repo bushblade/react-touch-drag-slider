@@ -13,7 +13,7 @@ Each finding can be picked off independently. Mark `[x]` when resolved.
 
 - [ ] **Snapshot-only test** — `src/lib/Slider.test.tsx` has one snapshot render. No interaction tests exist for drag, swipe, keyboard navigation, or threshold snapping. Consider adding `@testing-library/user-event` tests for core interactions.
 
-- [ ] **`tsconfig` moduleResolution** — `tsconfig.json` uses `"moduleResolution": "Node"`. For a Vite project, `"Bundler"` is more accurate and avoids subtle resolution differences.
+- [x] **`tsconfig` moduleResolution** — `tsconfig.json` uses `"moduleResolution": "Node"`. For a Vite project, `"Bundler"` is more accurate and avoids subtle resolution differences.
 
 - [ ] **UMD output may be unnecessary** — UMD is increasingly niche; most bundlers consume ESM. Consider dropping UMD in a future major version to simplify the build.
 

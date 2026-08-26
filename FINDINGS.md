@@ -9,7 +9,7 @@ Each finding can be picked off independently. Mark `[x]` when resolved.
 
 - [x] **Dead `styled-components` externalization** — `vite.config.ts` lists `styled-components` in `rollupOptions.external` and `output.globals`, but the library never imports it. Remove it to avoid confusion.
 
-- [ ] **No CI workflow** — `.github/` only has `FUNDING.yml`. Add a GitHub Actions workflow that runs `pnpm lint`, `npx tsc --noEmit`, and `pnpm test` on PRs and pushes to main.
+- [x] **No CI workflow** — `.github/` only has `FUNDING.yml`. Add a GitHub Actions workflow that runs `pnpm lint`, `npx tsc --noEmit`, and `pnpm test` on PRs and pushes to main.
 
 - [ ] **Snapshot-only test** — `src/lib/Slider.test.tsx` has one snapshot render. No interaction tests exist for drag, swipe, keyboard navigation, or threshold snapping. Consider adding `@testing-library/user-event` tests for core interactions.
 

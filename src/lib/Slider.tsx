@@ -10,6 +10,7 @@ import {
 } from 'react'
 import { getElementDimensions } from '../utils'
 import Slide from './Slide'
+import SliderPosition from './sliderPosition'
 
 interface SliderProps {
   children: ReactElement[]
@@ -53,9 +54,25 @@ function Slider({
   const startPos = useRef(0)
   const currentTranslate = useRef(0)
   const prevTranslate = useRef(0)
-  const currentIndex = useRef<number | null>(0)
   const sliderRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
+  const sliderPositionRef = useRef<SliderPosition | null>(null)
+  const sliderConfigRef = useRef({ count: 0, threshold: 100 })
+
+  if (
+    !sliderPositionRef.current ||
+    sliderConfigRef.current.count !== children.length ||
+    sliderConfigRef.current.threshold !== threshHold
+  ) {
+    sliderPositionRef.current = new SliderPosition({
+      count: children.length,
+      threshold: threshHold,
+      initialIndex:
+        sliderPositionRef.current?.currentIndex ?? activeIndex ?? 0,
+    })
+    sliderConfigRef.current = { count: children.length, threshold: threshHold }
+  }
+  const sliderPosition = sliderPositionRef.current
 
   const setSliderPosition = useCallback(() => {
     if (!sliderRef.current) return
@@ -64,11 +81,11 @@ function Slider({
 
   const setPositionByIndex = useCallback(
     (w = dimensions.width) => {
-      currentTranslate.current = currentIndex.current! * -w
+      currentTranslate.current = sliderPosition.currentIndex * -w
       prevTranslate.current = currentTranslate.current
       setSliderPosition()
     },
-    [dimensions.width, setSliderPosition]
+    [dimensions.width, sliderPosition, setSliderPosition]
   )
 
   const transitionOn = useCallback(() => {
@@ -82,12 +99,12 @@ function Slider({
 
   // watch for a change in activeIndex prop
   useEffect(() => {
-    if (activeIndex !== currentIndex.current) {
+    if (activeIndex !== sliderPosition.currentIndex) {
       transitionOn()
-      currentIndex.current = activeIndex
+      sliderPosition.goTo(activeIndex ?? 0)
       setPositionByIndex()
     }
-  }, [activeIndex, setPositionByIndex, transitionOn])
+  }, [activeIndex, sliderPosition, setPositionByIndex, transitionOn])
 
   useLayoutEffect(() => {
     if (sliderRef.current) {
@@ -114,20 +131,16 @@ function Slider({
     }
 
     const handleKeyDown = ({ key }: KeyboardEvent) => {
-      // HACK: Non-Null Assertion operator
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
       if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
-        onSlideStart(currentIndex.current!)
+        onSlideStart(sliderPosition.currentIndex)
       }
-      if (key === 'ArrowRight' && currentIndex.current! < children.length - 1) {
-        currentIndex.current! += 1
-      }
-      if (key === 'ArrowLeft' && currentIndex.current! > 0) {
-        currentIndex.current! -= 1
-      }
+      if (key === 'ArrowRight')
+        sliderPosition.goTo(sliderPosition.currentIndex + 1)
+      if (key === 'ArrowLeft') sliderPosition.goTo(sliderPosition.currentIndex - 1)
       if (arrowsPressed && onSlideComplete)
-        onSlideComplete(currentIndex.current!)
+        onSlideComplete(sliderPosition.currentIndex)
       setPositionByIndex()
     }
 
@@ -139,24 +152,24 @@ function Slider({
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [
-    children.length,
     setPositionByIndex,
     onSlideComplete,
     onSlideStart,
     transitionOn,
     transitionOff,
+    sliderPosition,
   ])
 
   function pointerStart(index: number) {
     return (event: React.PointerEvent) => {
       transitionOn()
-      currentIndex.current = index
+      sliderPosition.goTo(index)
       startPos.current = event.pageX
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
       if (sliderRef.current) sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
-      if (onSlideStart) onSlideStart(currentIndex.current)
+      if (onSlideStart) onSlideStart(sliderPosition.currentIndex)
     }
   }
 
@@ -176,19 +189,15 @@ function Slider({
     const movedBy = currentTranslate.current - prevTranslate.current
 
     // if moved enough negative then snap to next slide if there is one
-    if (movedBy < -threshHold && currentIndex.current! < children.length - 1)
-      currentIndex.current! += 1
-
     // if moved enough positive then snap to previous slide if there is one
-    if (movedBy > threshHold && currentIndex.current! > 0)
-      currentIndex.current! -= 1
+    sliderPosition.snapBy(movedBy)
 
     transitionOn()
 
     setPositionByIndex()
     sliderRef.current!.style.cursor = 'grab'
     // if onSlideComplete prop - call it
-    if (onSlideComplete) onSlideComplete(currentIndex.current!)
+    if (onSlideComplete) onSlideComplete(sliderPosition.currentIndex)
   }
 
   function animation() {

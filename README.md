@@ -66,7 +66,7 @@ export default App
 
 ## Examples
 
-Most basic example with no props - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-example-basic)
+Most basic example with no props - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-example-basic?file=src/App.jsx)
 
 With props, local state and buttons (you provide the buttons) - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-advanced-example?file=src/App.jsx)
 

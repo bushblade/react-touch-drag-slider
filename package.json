@@ -21,6 +21,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
+    "prepublishOnly": "pnpm build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",

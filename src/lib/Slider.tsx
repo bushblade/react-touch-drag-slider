@@ -178,6 +178,8 @@ function Slider({
     return (event: React.PointerEvent) => {
       transitionOn()
       sliderPosition.goTo(index)
+      prevTranslate.current = sliderPosition.currentIndex * -dimensions.width
+      currentTranslate.current = prevTranslate.current
       startPos.current = event.pageX
       dragging.current = true
       animationRef.current = requestAnimationFrame(animation)
@@ -207,8 +209,6 @@ function Slider({
     // if moved enough positive then snap to previous slide if there is one
     sliderPosition.snapBy(movedBy)
 
-    transitionOn()
-
     setPositionByIndex()
     sliderRef.current!.style.cursor = 'grab'
     // if onSlideComplete prop - call it
@@ -231,6 +231,14 @@ function Slider({
         maxHeight: '100vh',
       }}
     >
+      <style>
+        {`
+          .rtds-single-slide-styles img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        `}
+      </style>
       <div
         data-testid="slider"
         ref={sliderRef}
@@ -253,7 +261,7 @@ function Slider({
           return (
             // biome-ignore lint/a11y/noStaticElementInteractions: <explanation only parent should be focusable>
             <div
-              key={child.key}
+              key={child.key ?? index}
               onPointerDown={pointerStart(index)}
               onPointerMove={pointerMove}
               onPointerUp={pointerEnd}

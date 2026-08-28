@@ -6,21 +6,27 @@ import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   test: {
-    includeSource: ['src/**/*.{js,ts}'],
     environment: 'jsdom',
+    setupFiles: ['./src/test-setup.ts'],
   },
   plugins: [
     react(),
     dts({
       insertTypesEntry: true,
+      exclude: [
+        'src/**/*.test.*',
+        'src/test-setup.ts',
+        'src/App.tsx',
+        'src/images.ts',
+        'src/main.tsx',
+      ],
     }),
   ],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),
-      name: 'react-touch-drag-slider',
-      formats: ['es', 'umd'],
-      fileName: (format) => `lib.${format}.js`,
+      formats: ['es'],
+      fileName: () => 'lib.es.js',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

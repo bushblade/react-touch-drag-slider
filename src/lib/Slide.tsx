@@ -8,8 +8,6 @@ interface SlideProps {
   scaleOnDrag?: boolean
 }
 
-const css = String.raw
-
 function Slide({
   child,
   sliderWidth,
@@ -28,17 +26,8 @@ function Slide({
       slideRef.current.style.transform = 'scale(1)'
   }
   return (
-    <>
-      <style>
-        {css`
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        `}
-      </style>
-      <div
-        ref={slideRef}
+    <div
+      ref={slideRef}
         style={{
           width: `${sliderWidth}px`,
           height: `${sliderHeight}px`,
@@ -68,7 +57,6 @@ function Slide({
           {child}
         </div>
       </div>
-    </>
   )
 }
 

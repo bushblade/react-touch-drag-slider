@@ -8,6 +8,14 @@ exports[`Slider test > It should render 1`] = `
       <div
         style="overflow: hidden; width: 100%; height: 100%; max-height: 100vh;"
       >
+        <style>
+          
+          .rtds-single-slide-styles img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        
+        </style>
         <div
           aria-valuemax="4"
           aria-valuemin="0"
@@ -20,14 +28,6 @@ exports[`Slider test > It should render 1`] = `
           <div
             class="slide-outer"
           >
-            <style>
-              
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-            </style>
             <div
               class="rtds-single-slide-styles"
               style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -45,14 +45,6 @@ exports[`Slider test > It should render 1`] = `
           <div
             class="slide-outer"
           >
-            <style>
-              
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-            </style>
             <div
               class="rtds-single-slide-styles"
               style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -70,14 +62,6 @@ exports[`Slider test > It should render 1`] = `
           <div
             class="slide-outer"
           >
-            <style>
-              
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-            </style>
             <div
               class="rtds-single-slide-styles"
               style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -95,14 +79,6 @@ exports[`Slider test > It should render 1`] = `
           <div
             class="slide-outer"
           >
-            <style>
-              
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-            </style>
             <div
               class="rtds-single-slide-styles"
               style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -120,14 +96,6 @@ exports[`Slider test > It should render 1`] = `
           <div
             class="slide-outer"
           >
-            <style>
-              
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-            </style>
             <div
               class="rtds-single-slide-styles"
               style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -150,6 +118,14 @@ exports[`Slider test > It should render 1`] = `
     <div
       style="overflow: hidden; width: 100%; height: 100%; max-height: 100vh;"
     >
+      <style>
+        
+          .rtds-single-slide-styles img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        
+      </style>
       <div
         aria-valuemax="4"
         aria-valuemin="0"
@@ -162,14 +138,6 @@ exports[`Slider test > It should render 1`] = `
         <div
           class="slide-outer"
         >
-          <style>
-            
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-          </style>
           <div
             class="rtds-single-slide-styles"
             style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -187,14 +155,6 @@ exports[`Slider test > It should render 1`] = `
         <div
           class="slide-outer"
         >
-          <style>
-            
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-          </style>
           <div
             class="rtds-single-slide-styles"
             style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -212,14 +172,6 @@ exports[`Slider test > It should render 1`] = `
         <div
           class="slide-outer"
         >
-          <style>
-            
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-          </style>
           <div
             class="rtds-single-slide-styles"
             style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -237,14 +189,6 @@ exports[`Slider test > It should render 1`] = `
         <div
           class="slide-outer"
         >
-          <style>
-            
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-          </style>
           <div
             class="rtds-single-slide-styles"
             style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"
@@ -262,14 +206,6 @@ exports[`Slider test > It should render 1`] = `
         <div
           class="slide-outer"
         >
-          <style>
-            
-          .rtds-single-slide-styles img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        
-          </style>
           <div
             class="rtds-single-slide-styles"
             style="width: 0px; height: 0px; transition: transform 0.2s ease-out;"

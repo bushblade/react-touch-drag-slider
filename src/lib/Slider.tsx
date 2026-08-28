@@ -17,7 +17,7 @@ interface SliderProps {
   onSlideComplete?: (index: number) => void
   onSlideStart?: (index: number) => void
   activeIndex?: number | null
-  threshHold?: number
+  threshold?: number
   transition?: number
   scaleOnDrag?: boolean
 }
@@ -31,7 +31,7 @@ interface SliderProps {
  * slide starts it's movement
  * @param props.activeIndex - Use to set the starting index or to upate the
  * current shown slide
- * @param props.threshHold - A pixel value that must be dragged before slide
+ * @param props.threshold - A pixel value that must be dragged before slide
  * snaps into place
  * @param props.transition - The transition delay in seconds
  * @param props.scaleOnDrag - Choose if the slide should have a scale animation
@@ -44,7 +44,7 @@ function Slider({
   onSlideComplete,
   onSlideStart,
   activeIndex = null,
-  threshHold = 100,
+  threshold = 100,
   transition = 0.3,
   scaleOnDrag = false,
 }: SliderProps) {
@@ -62,15 +62,15 @@ function Slider({
   if (
     !sliderPositionRef.current ||
     sliderConfigRef.current.count !== children.length ||
-    sliderConfigRef.current.threshold !== threshHold
+    sliderConfigRef.current.threshold !== threshold
   ) {
     sliderPositionRef.current = new SliderPosition({
       count: children.length,
-      threshold: threshHold,
+      threshold,
       initialIndex:
         sliderPositionRef.current?.currentIndex ?? activeIndex ?? 0,
     })
-    sliderConfigRef.current = { count: children.length, threshold: threshHold }
+    sliderConfigRef.current = { count: children.length, threshold }
   }
   const sliderPosition = sliderPositionRef.current
 

@@ -39,7 +39,7 @@ function App() {
         console.log('started dragging on slide', i)
       }}
       activeIndex={0}
-      threshHold={100}
+      threshold={100}
       transition={0.5}
       scaleOnDrag={true}
     >
@@ -60,7 +60,7 @@ export default App
 | onSlideComplete | (completedIndex: number) => void |         | A function that gets called when finished                           |
 | onSlideStart    | (startIndex: number) => void     |         | A function that gets called on start                                |
 | activeIndex     | number                           | 0       | Set to start on this index or use state to update the current index |
-| threshHold      | number                           | 100     | A pixel value that must be dragged before slide snaps to position   |
+| threshold       | number                           | 100     | A pixel value that must be dragged before slide snaps to position   |
 | transition      | number                           | 0.3     | The transition delay in seconds                                     |
 | scaleOnDrag     | boolean                          | false   | Should the individual slide scale while dragging                    |
 

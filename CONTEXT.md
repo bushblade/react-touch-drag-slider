@@ -19,7 +19,7 @@ _Avoid_: child, panel
 **Threshold**:
 The pixel distance a drag must exceed before the slider snaps to the next or
 previous slide.
-_Avoid_: threshHold (misspelt prop retained for backwards compatibility)
+_Avoid_: threshHold (previously misspelt prop name; now renamed to threshold)
 
 **Drag**:
 A pointer press-and-move interaction that shifts the slider's translate before

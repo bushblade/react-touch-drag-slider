@@ -40,7 +40,7 @@ function App() {
           console.log('started dragging on slide', i)
         }}
         activeIndex={index}
-        threshHold={100}
+        threshold={100}
         transition={0.3}
         scaleOnDrag={true}
       >

@@ -19,6 +19,28 @@ Each finding can be picked off independently. Mark `[x]` when resolved.
 
 - [ ] **Inline vitest test in `src/utils.ts`** — Uses `import.meta.vitest` pattern (Vite plugin feature). Works but is unusual; contributors may not notice it. Consider moving to a separate test file for discoverability.
 
+### Accessibility (a11y)
+
+- [ ] **Stale `aria-valuenow`** — `Slider.tsx:223` sets `aria-valuenow={activeIndex ?? 0}`, reflecting only the prop, not the live position. It never updates during drag or keyboard navigation, defeating the `role="slider"` semantics. Track `sliderPosition.currentIndex` and update it live as the slide changes.
+
+- [ ] **No live announcement of slide changes** — when the slide changes via keyboard or drag, screen readers get no announcement. Consider `aria-live` or updating `aria-valuenow` (above) on every change.
+
+### Code quality / bugs
+
+- [ ] **Duplicate `<style>` injection** — `Slide.tsx:32` emits a `<style>` tag for every slide, duplicating identical CSS N times in the DOM. Hoist it once (e.g. render in the Slider or as a single global style).
+
+- [ ] **Redundant `transitionOn()` in `pointerEnd`** — `Slider.tsx:186` and `:195` call it back-to-back; one call is dead.
+
+- [ ] **`child.key` may be undefined** — `Slider.tsx:239` maps with `key={child.key}`; if a consumer omits keys React warns and behavior is undefined. Derive a stable key (e.g. index) or document the requirement.
+
+- [ ] **rAF not cancelled on unmount** — `animationRef` (`Slider.tsx:58`) is never cleaned up if the component unmounts mid-drag, leaving a `requestAnimationFrame` loop running against a detached node. Cancel it in a cleanup effect.
+
+- [ ] **Drag offset edge case** — `pointerStart` (`Slider.tsx:163`) calls `goTo(index)` without resyncing `prevTranslate`, so pressing a partially-visible non-current slide starts the drag from the wrong offset. Recompute `prevTranslate` for the newly selected index.
+
+### DX / API polish
+
+- [x] **`threshHold` typo** — the public prop was misspelled (acknowledged in `CONTEXT.md`). Renamed to correctly-spelled `threshold` as a breaking change (v3.0.0).
+
 ---
 
 Resolved:

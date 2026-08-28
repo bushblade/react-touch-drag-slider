@@ -49,6 +49,7 @@ function Slider({
   scaleOnDrag = false,
 }: SliderProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const [currentIndex, setCurrentIndex] = useState(activeIndex ?? 0)
 
   const dragging = useRef(false)
   const startPos = useRef(0)
@@ -73,6 +74,10 @@ function Slider({
     sliderConfigRef.current = { count: children.length, threshold }
   }
   const sliderPosition = sliderPositionRef.current
+
+  const syncIndex = useCallback(() => {
+    setCurrentIndex(sliderPosition.currentIndex)
+  }, [sliderPosition])
 
   const setSliderPosition = useCallback(() => {
     if (!sliderRef.current) return
@@ -103,8 +108,9 @@ function Slider({
       transitionOn()
       sliderPosition.goTo(activeIndex ?? 0)
       setPositionByIndex()
+      syncIndex()
     }
-  }, [activeIndex, sliderPosition, setPositionByIndex, transitionOn])
+  }, [activeIndex, sliderPosition, setPositionByIndex, transitionOn, syncIndex])
 
   useLayoutEffect(() => {
     if (sliderRef.current) {
@@ -148,6 +154,7 @@ function Slider({
       if (arrowsPressed && onSlideComplete)
         onSlideComplete(sliderPosition.currentIndex)
       setPositionByIndex()
+      syncIndex()
     }
 
     window.addEventListener('resize', handleResize)
@@ -164,6 +171,7 @@ function Slider({
     transitionOn,
     transitionOff,
     sliderPosition,
+    syncIndex,
   ])
 
   function pointerStart(index: number) {
@@ -176,6 +184,7 @@ function Slider({
       if (sliderRef.current) sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
       if (onSlideStart) onSlideStart(sliderPosition.currentIndex)
+      syncIndex()
     }
   }
 
@@ -204,6 +213,7 @@ function Slider({
     sliderRef.current!.style.cursor = 'grab'
     // if onSlideComplete prop - call it
     if (onSlideComplete) onSlideComplete(sliderPosition.currentIndex)
+    syncIndex()
   }
 
   function animation() {
@@ -227,7 +237,7 @@ function Slider({
         role="slider"
         aria-valuemin={0} // The first slide index
         aria-valuemax={children.length - 1} // The last slide index
-        aria-valuenow={activeIndex ?? 0} // The current slide index
+        aria-valuenow={currentIndex} // The current slide index
         tabIndex={0}
         style={{
           all: 'initial',

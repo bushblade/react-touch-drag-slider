@@ -29,7 +29,13 @@ export default defineConfig({
       fileName: () => 'lib.es.js',
     },
     rolldownOptions: {
-      external: ['react', 'react-dom'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'react-dom/client',
+      ],
     },
   },
 })

@@ -118,6 +118,12 @@ function Slider({
     }
   }, [setPositionByIndex, transitionOff])
 
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current)
+    }
+  }, [])
+
   // add event listeners
   useEffect(() => {
     // set width if window resizes
@@ -202,7 +208,8 @@ function Slider({
 
   function animation() {
     setSliderPosition()
-    if (dragging.current) requestAnimationFrame(animation)
+    if (dragging.current)
+      animationRef.current = requestAnimationFrame(animation)
   }
 
   return (

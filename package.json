@@ -26,10 +26,6 @@
     "test:ui": "vitest --ui",
     "lint": "biome lint src/"
   },
-  "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
-  },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"

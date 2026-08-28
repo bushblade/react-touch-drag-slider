@@ -21,9 +21,9 @@ Each finding can be picked off independently. Mark `[x]` when resolved.
 
 ### Accessibility (a11y)
 
-- [ ] **Stale `aria-valuenow`** — `Slider.tsx:223` sets `aria-valuenow={activeIndex ?? 0}`, reflecting only the prop, not the live position. It never updates during drag or keyboard navigation, defeating the `role="slider"` semantics. Track `sliderPosition.currentIndex` and update it live as the slide changes.
+- [x] **Stale `aria-valuenow`** — `Slider.tsx:223` sets `aria-valuenow={activeIndex ?? 0}`, reflecting only the prop, not the live position. It never updates during drag or keyboard navigation, defeating the `role="slider"` semantics. Track `sliderPosition.currentIndex` and update it live as the slide changes.
 
-- [ ] **No live announcement of slide changes** — when the slide changes via keyboard or drag, screen readers get no announcement. Consider `aria-live` or updating `aria-valuenow` (above) on every change.
+- [x] **No live announcement of slide changes** — when the slide changes via keyboard or drag, screen readers get no announcement. Consider `aria-live` or updating `aria-valuenow` (above) on every change.
 
 ### Code quality / bugs
 

@@ -1,8 +1,8 @@
-/// <reference types="vitest" />
-import react from '@vitejs/plugin-react'
+/// <reference types="vitest/config" />
 import path from 'node:path'
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import dts from 'unplugin-dts/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   test: {

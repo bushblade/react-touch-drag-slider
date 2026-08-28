@@ -2,7 +2,7 @@
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
+import dts from 'unplugin-dts/vite'
 
 export default defineConfig({
   test: {
@@ -24,18 +24,12 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/lib/index.ts'),
+      entry: path.resolve(import.meta.dirname, 'src/lib/index.ts'),
       formats: ['es'],
       fileName: () => 'lib.es.js',
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
     },
   },
 })

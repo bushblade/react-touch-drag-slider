@@ -49,18 +49,18 @@ function ExampleCallbacks() {
           ))}
         </Slider>
       </div>
-      <div className="overflow-hidden rounded-lg bg-neutral-950 font-mono text-sm shadow-inner">
-        <div className="flex items-center gap-1.5 border-b border-neutral-800 bg-neutral-900 px-4 py-2">
+      <div className="overflow-hidden rounded-lg border border-code-border bg-code-bg font-mono text-sm shadow-inner">
+        <div className="flex items-center gap-1.5 border-b border-code-border bg-surface-2 px-4 py-2">
           <span className="h-3 w-3 rounded-full bg-red-500" />
           <span className="h-3 w-3 rounded-full bg-yellow-500" />
           <span className="h-3 w-3 rounded-full bg-green-500" />
-          <span className="ml-2 text-xs text-neutral-400">Console</span>
+          <span className="ml-2 text-xs text-fg-faint">Console</span>
           <button
             type="button"
             onClick={clearLog}
             aria-label="Clear console"
             title="Clear console"
-            className="ml-auto rounded p-1 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-neutral-200"
+            className="ml-auto rounded p-1 text-fg-faint transition-colors hover:bg-surface hover:text-fg"
           >
             <svg
               className="h-4 w-4"
@@ -88,11 +88,11 @@ function ExampleCallbacks() {
                 className={
                   isBlank
                     ? isHint
-                      ? 'italic text-neutral-500'
+                      ? 'italic text-fg-faint'
                       : undefined
                     : entry.event === 'onSlideStart'
-                      ? 'text-sky-400'
-                      : 'text-neutral-300'
+                      ? 'text-accent'
+                      : 'text-fg-muted'
                 }
               >
                 {isBlank

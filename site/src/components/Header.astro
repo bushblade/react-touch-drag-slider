@@ -7,17 +7,60 @@ const nav = [
   { href: '/a11y/', label: 'Accessibility' },
 ]
 ---
-<header class="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
+<header class="sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur">
   <nav class="mx-auto flex w-full max-w-4xl items-center gap-6 px-6 py-4">
     <a href="/" class="font-semibold">react-touch-drag-slider</a>
-    <div class="ml-auto flex gap-5 text-sm">
+    <div class="ml-auto flex items-center gap-5 text-sm">
       {
         nav.map((item) => (
-          <a href={item.href} class="text-neutral-600 hover:text-neutral-900">
+          <a
+            href={item.href}
+            class="text-fg-muted transition-colors hover:text-accent"
+          >
             {item.label}
           </a>
         ))
       }
+      <button
+        type="button"
+        id="theme-toggle"
+        aria-label="Toggle light and dark mode"
+        class="rounded p-1.5 text-fg-muted transition-colors hover:text-accent"
+      >
+        <svg
+          class="hidden h-5 w-5 dark:block"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <svg
+          class="block h-5 w-5 dark:hidden"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+      </button>
     </div>
   </nav>
 </header>
+<script>
+  const button = document.getElementById('theme-toggle')
+  button?.addEventListener('click', () => {
+    const root = document.documentElement
+    const dark = root.classList.toggle('dark')
+    localStorage.setItem('theme', dark ? 'dark' : 'light')
+  })
+</script>

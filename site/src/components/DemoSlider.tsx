@@ -34,18 +34,18 @@ function DemoSlider() {
           type="button"
           onClick={prev}
           disabled={index === 0}
-          className="rounded border border-neutral-300 px-4 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded border border-border px-4 py-1.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg"
         >
           Previous
         </button>
-        <span className="text-sm text-neutral-500">
+        <span className="text-sm text-fg-faint">
           Slide {index + 1} of {maxIndex + 1}
         </span>
         <button
           type="button"
           onClick={next}
           disabled={index === maxIndex}
-          className="rounded border border-neutral-300 px-4 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded border border-border px-4 py-1.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg"
         >
           Next
         </button>

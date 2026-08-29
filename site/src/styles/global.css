@@ -48,6 +48,12 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 .prose-tokyo {
   --tw-prose-body: var(--color-fg);
   --tw-prose-headings: var(--color-fg);
@@ -66,6 +72,38 @@
   --tw-prose-pre-bg: var(--color-code-bg);
   --tw-prose-th-borders: var(--color-border);
   --tw-prose-td-borders: var(--color-border);
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 5.5rem;
+}
+
+.prose .anchor {
+  margin-left: 0.4em;
+  color: var(--color-fg-faint);
+  font-weight: 400;
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
+}
+
+.prose .anchor::before {
+  content: '#';
+}
+
+.prose .anchor .icon {
+  display: none;
+}
+
+.prose .anchor:hover {
+  color: var(--color-accent);
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6):hover .anchor,
+.prose .anchor:focus-visible {
+  opacity: 1;
 }
 
 .astro-code {

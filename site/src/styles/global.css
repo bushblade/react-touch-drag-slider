@@ -3,17 +3,17 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-bg: #d5d6db;
-  --color-surface: #e1e2e7;
-  --color-surface-2: #c4c6d1;
-  --color-code-bg: #e1e2e7;
-  --color-code-border: #b6b7bb;
+  --color-bg: #e6e7ed;
+  --color-surface: #e1e2e8;
+  --color-surface-2: #d6d8df;
+  --color-code-bg: #d6d8df;
+  --color-code-border: #c1c2c7;
   --color-fg: #343b59;
-  --color-fg-muted: #4c505e;
-  --color-fg-faint: #9699a3;
-  --color-border: #b6b7bb;
-  --color-accent: #2e7de9;
-  --color-accent-2: #9854f1;
+  --color-fg-muted: #707280;
+  --color-fg-faint: #9da0ab;
+  --color-border: #c1c2c7;
+  --color-accent: #2959aa;
+  --color-accent-2: #65359d;
 }
 
 .dark {
@@ -54,4 +54,30 @@
   --tw-prose-pre-bg: var(--color-code-bg);
   --tw-prose-th-borders: var(--color-border);
   --tw-prose-td-borders: var(--color-border);
+}
+
+.astro-code {
+  color: var(--shiki-light, inherit);
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-code-border);
+}
+
+.astro-code span {
+  color: var(--shiki-light, inherit);
+  font-style: var(--shiki-light-font-style, inherit);
+  font-weight: var(--shiki-light-font-weight, inherit);
+  text-decoration: var(--shiki-light-text-decoration, inherit);
+}
+
+.dark .astro-code {
+  color: var(--shiki-dark, inherit);
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-code-border);
+}
+
+.dark .astro-code span {
+  color: var(--shiki-dark, inherit);
+  font-style: var(--shiki-dark-font-style, inherit);
+  font-weight: var(--shiki-dark-font-weight, inherit);
+  text-decoration: var(--shiki-dark-text-decoration, inherit);
 }

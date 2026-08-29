@@ -1,0 +1,52 @@
+---
+import NavLinks from './NavLinks.astro'
+
+interface Props {
+  items: { href: string; label: string }[]
+}
+const { items } = Astro.props
+---
+<div
+  id="mobile-menu"
+  class="absolute inset-x-0 top-full z-50 hidden border-b border-border bg-bg/90 shadow-md backdrop-blur md:hidden"
+>
+  <nav class="mx-auto flex w-full max-w-4xl flex-col px-6 py-3">
+    <NavLinks items={items} class="py-3" />
+  </nav>
+</div>
+<script>
+  const menuToggle = document.getElementById('menu-toggle')
+  const mobileMenu = document.getElementById('mobile-menu')
+  const menuOpenIcon = document.getElementById('menu-icon-open')
+  const menuCloseIcon = document.getElementById('menu-icon-close')
+
+  const setMenuOpen = (open: boolean) => {
+    mobileMenu?.classList.toggle('hidden', !open)
+    menuToggle?.setAttribute('aria-expanded', String(open))
+    menuOpenIcon?.classList.toggle('hidden', open)
+    menuCloseIcon?.classList.toggle('hidden', !open)
+  }
+
+  menuToggle?.addEventListener('click', () => {
+    setMenuOpen(mobileMenu?.classList.contains('hidden') ?? true)
+  })
+
+  mobileMenu?.addEventListener('click', (event) => {
+    if (event.target instanceof HTMLAnchorElement) setMenuOpen(false)
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenuOpen(false)
+  })
+
+  document.addEventListener('click', (event) => {
+    const target = event.target
+    if (
+      target instanceof Node &&
+      !menuToggle?.contains(target) &&
+      !mobileMenu?.contains(target)
+    ) {
+      setMenuOpen(false)
+    }
+  })
+</script>

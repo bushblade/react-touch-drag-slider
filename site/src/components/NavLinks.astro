@@ -1,0 +1,17 @@
+---
+interface Props {
+  items: { href: string; label: string }[]
+  class?: string
+}
+const { items, class: className = '' } = Astro.props
+---
+{
+  items.map((item) => (
+    <a
+      href={item.href}
+      class={`text-fg-muted transition-colors hover:text-accent ${className}`}
+    >
+      {item.label}
+    </a>
+  ))
+}

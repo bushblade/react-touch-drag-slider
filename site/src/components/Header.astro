@@ -1,4 +1,9 @@
 ---
+import MenuToggle from './MenuToggle.astro'
+import MobileMenu from './MobileMenu.astro'
+import NavLinks from './NavLinks.astro'
+import ThemeToggle from './ThemeToggle.astro'
+
 const nav = [
   { href: '/', label: 'Home' },
   { href: '/usage/', label: 'Usage' },
@@ -7,147 +12,18 @@ const nav = [
   { href: '/a11y/', label: 'Accessibility' },
 ]
 ---
-<header class="sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur">
-  <nav class="mx-auto flex w-full max-w-4xl items-center gap-6 px-6 py-4">
-    <a href="/" class="font-semibold">react-touch-drag-slider</a>
-    <div class="ml-auto flex items-center gap-5 text-sm">
-      <div class="hidden items-center gap-5 md:flex">
-        {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              class="text-fg-muted transition-colors hover:text-accent"
-            >
-              {item.label}
-            </a>
-          ))
-        }
+<div class="sticky top-0 z-10">
+  <header class="border-b border-border bg-bg/90 backdrop-blur">
+    <nav class="mx-auto flex w-full max-w-4xl items-center gap-6 px-6 py-4">
+      <a href="/" class="font-semibold">react-touch-drag-slider</a>
+      <div class="ml-auto flex items-center gap-5 text-sm">
+        <div class="hidden items-center gap-5 md:flex">
+          <NavLinks items={nav} />
+        </div>
+        <ThemeToggle />
+        <MenuToggle />
       </div>
-      <button
-        type="button"
-        id="theme-toggle"
-        aria-label="Toggle light and dark mode"
-        class="rounded p-1.5 text-fg-muted transition-colors hover:text-accent"
-      >
-        <svg
-          class="hidden h-5 w-5 dark:block"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-        </svg>
-        <svg
-          class="block h-5 w-5 dark:hidden"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        id="menu-toggle"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-        class="rounded p-1.5 text-fg-muted transition-colors hover:text-accent md:hidden"
-      >
-        <svg
-          id="menu-icon-open"
-          class="block h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <svg
-          id="menu-icon-close"
-          class="hidden h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <path d="M6 6l12 12M18 6L6 18" />
-        </svg>
-      </button>
-    </div>
-  </nav>
-  <div
-    id="mobile-menu"
-    class="absolute inset-x-0 top-full z-50 hidden border-b border-border bg-bg/95 shadow-md backdrop-blur md:hidden"
-  >
-    <nav class="mx-auto flex w-full max-w-4xl flex-col px-6 py-3">
-      {
-        nav.map((item) => (
-          <a
-            href={item.href}
-            class="py-3 text-fg-muted transition-colors hover:text-accent"
-          >
-            {item.label}
-          </a>
-        ))
-      }
     </nav>
-  </div>
-</header>
-<script>
-  const button = document.getElementById('theme-toggle')
-  button?.addEventListener('click', () => {
-    const root = document.documentElement
-    const dark = root.classList.toggle('dark')
-    localStorage.setItem('theme', dark ? 'dark' : 'light')
-  })
-
-  const menuToggle = document.getElementById('menu-toggle')
-  const mobileMenu = document.getElementById('mobile-menu')
-  const menuOpenIcon = document.getElementById('menu-icon-open')
-  const menuCloseIcon = document.getElementById('menu-icon-close')
-
-  const setMenuOpen = (open: boolean) => {
-    mobileMenu?.classList.toggle('hidden', !open)
-    menuToggle?.setAttribute('aria-expanded', String(open))
-    menuOpenIcon?.classList.toggle('hidden', open)
-    menuCloseIcon?.classList.toggle('hidden', !open)
-  }
-
-  menuToggle?.addEventListener('click', () => {
-    setMenuOpen(mobileMenu?.classList.contains('hidden') ?? true)
-  })
-
-  mobileMenu?.addEventListener('click', (event) => {
-    if (event.target instanceof HTMLAnchorElement) setMenuOpen(false)
-  })
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setMenuOpen(false)
-  })
-
-  document.addEventListener('click', (event) => {
-    const target = event.target
-    if (
-      target instanceof Node &&
-      !menuToggle?.contains(target) &&
-      !mobileMenu?.contains(target)
-    ) {
-      setMenuOpen(false)
-    }
-  })
-</script>
+  </header>
+  <MobileMenu items={nav} />
+</div>

@@ -1,4 +1,7 @@
 ---
+import '@fontsource-variable/inter'
+import '@fontsource-variable/space-grotesk'
+import '@fontsource/jetbrains-mono/400.css'
 import '../styles/global.css'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
@@ -29,7 +32,7 @@ const { title = 'react-touch-drag-slider' } = Astro.props
       })()
     </script>
   </head>
-  <body class="flex min-h-screen flex-col bg-bg text-fg antialiased">
+  <body class="flex min-h-screen flex-col overflow-x-clip bg-bg text-fg antialiased">
     <Header />
     <main class="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
       <slot />

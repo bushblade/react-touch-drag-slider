@@ -1,15 +1,42 @@
 ---
+import { Icon } from 'astro-icon/components'
+
+const links = [
+  {
+    href: 'https://github.com/bushblade/react-touch-drag-slider',
+    label: 'GitHub',
+    icon: 'simple-icons:github',
+  },
+  {
+    href: 'https://www.npmjs.com/package/react-touch-drag-slider',
+    label: 'npm',
+    icon: 'simple-icons:npm',
+  },
+]
 ---
-<footer class="border-t border-border py-8 text-sm text-fg-faint">
-  <div class="mx-auto flex w-full max-w-4xl items-center justify-between px-6">
-    <span>react-touch-drag-slider · MIT</span>
-    <span class="flex gap-5">
-      <a href="https://github.com/bushblade/react-touch-drag-slider" class="hover:text-accent">
-        GitHub
-      </a>
-      <a href="https://www.npmjs.com/package/react-touch-drag-slider" class="hover:text-accent">
-        npm
-      </a>
-    </span>
+<footer class="border-t border-border py-10 text-sm text-fg-faint">
+  <div class="mx-auto flex w-full max-w-4xl flex-col items-start justify-between gap-6 px-6 sm:flex-row sm:items-center">
+    <div class="flex items-center gap-2.5">
+      <span
+        class="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent-2 text-white"
+        aria-hidden="true"
+      >
+        <Icon name="lucide:move-horizontal" class="h-3.5 w-3.5" />
+      </span>
+      <span>react-touch-drag-slider · MIT</span>
+    </div>
+    <div class="flex gap-5">
+      {links.map(({ href, label, icon }) => (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 transition-colors hover:text-accent"
+        >
+          <Icon name={icon} class="h-4 w-4" aria-hidden="true" />
+          {label}
+        </a>
+      ))}
+    </div>
   </div>
 </footer>

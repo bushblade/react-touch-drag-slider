@@ -1,42 +1,108 @@
 ---
+import { Icon } from 'astro-icon/components'
 import SiteLayout from '../layouts/SiteLayout.astro'
 import DemoSlider from '../components/DemoSlider'
+
+const features = [
+  {
+    icon: 'lucide:smartphone',
+    label: 'Touch friendly on mobile',
+  },
+  {
+    icon: 'lucide:monitor',
+    label: 'Responsive to viewport resizing',
+  },
+  {
+    icon: 'lucide:mouse',
+    label: 'Mouse drag by default',
+  },
+  {
+    icon: 'lucide:package',
+    label: 'Zero dependencies',
+  },
+]
 ---
 <SiteLayout>
-  <section class="pb-12">
-    <p class="mb-3 text-sm font-medium uppercase tracking-widest text-accent">
+  <section class="relative pb-16">
+    <div
+      class="pointer-events-none absolute -top-12 bottom-0 left-[calc(50%-50vw)] -z-10 w-screen overflow-hidden"
+      aria-hidden="true"
+    >
+      <div
+        class="bg-dot-grid mask-fade-bottom absolute inset-0 opacity-50 dark:opacity-30"
+      ></div>
+      <div
+        class="absolute -top-24 left-1/2 h-80 w-[60rem] -translate-x-1/2 bg-[radial-gradient(closest-side,var(--color-glow),transparent)]"
+      ></div>
+    </div>
+
+    <p
+      class="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-sm font-medium text-fg-muted"
+    >
+      <span
+        class="h-2 w-2 rounded-full bg-gradient-to-r from-accent to-accent-2"
+      ></span>
       React component
     </p>
-    <h1 class="text-4xl font-bold tracking-tight">
-      Touch and drag slider for React
+    <h1 class="max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
+      Touch and drag <span class="text-gradient">slider</span> for React
     </h1>
     <p class="mt-4 max-w-2xl text-lg text-fg-muted">
       A small, zero-dependency slider carousel. Swipe or drag to move between
       slides, snaps into place past a threshold, and works with the keyboard.
     </p>
-    <div class="mt-6 flex gap-4">
+    <div class="mt-8 flex flex-wrap gap-4">
       <a
         href="/usage/"
-        class="rounded bg-accent px-4 py-2 text-sm font-medium text-white dark:text-bg"
+        class="rounded-lg bg-gradient-to-r from-accent to-accent-2 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-8px_var(--color-glow)] transition-all hover:brightness-110 hover:shadow-[0_8px_28px_-6px_var(--color-glow)] dark:text-bg"
       >
         Get started
       </a>
       <a
         href="/examples/"
-        class="rounded border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+        class="rounded-lg border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
       >
         Examples
       </a>
     </div>
-    <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-fg-muted">
-      <li>Touch friendly on mobile</li>
-      <li>Responsive to viewport resizing</li>
-      <li>Mouse drag by default</li>
-      <li>Zero dependencies</li>
+  </section>
+
+  <section class="pb-16">
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {features.map(({ icon, label }) => (
+        <li
+          class="group flex items-center gap-3 rounded-xl border border-border bg-surface p-4 transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_12px_28px_-16px_var(--color-glow)]"
+        >
+          <span
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-accent/15 to-accent-2/15 text-accent"
+          >
+            <Icon name={icon} class="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span class="text-sm font-medium text-fg">{label}</span>
+        </li>
+      ))}
     </ul>
   </section>
+
   <section>
-    <h2 class="mb-4 text-2xl font-semibold">Live demo</h2>
-    <DemoSlider client:load />
+    <div
+      class="overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_20px_50px_-24px_var(--color-glow)] ring-1 ring-accent/10"
+    >
+      <div
+        class="flex items-center gap-2 border-b border-border bg-bg/60 px-4 py-3"
+        aria-hidden="true"
+      >
+        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+        <span class="ml-2 text-xs font-medium text-fg-faint">
+          demo · react-touch-drag-slider
+        </span>
+      </div>
+      <div class="p-6 sm:p-8">
+        <h2 class="mb-5 text-xl font-semibold">Live demo</h2>
+        <DemoSlider client:load />
+      </div>
+    </div>
   </section>
 </SiteLayout>

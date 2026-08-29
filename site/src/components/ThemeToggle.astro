@@ -1,36 +1,22 @@
 ---
+import { Icon } from 'astro-icon/components'
 ---
 <button
   type="button"
   id="theme-toggle"
   aria-label="Toggle light and dark mode"
-  class="rounded p-1.5 text-fg-muted transition-colors hover:text-accent"
+  class="rounded-lg p-2 text-fg-muted transition-colors hover:text-accent"
 >
-  <svg
+  <Icon
+    name="lucide:sun"
     class="hidden h-5 w-5 dark:block"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
     aria-hidden="true"
-  >
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-  </svg>
-  <svg
+  />
+  <Icon
+    name="lucide:moon"
     class="block h-5 w-5 dark:hidden"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
     aria-hidden="true"
-  >
-    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-  </svg>
+  />
 </button>
 <script>
   const button = document.getElementById('theme-toggle')

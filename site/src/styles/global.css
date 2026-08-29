@@ -3,6 +3,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-sans:
+    'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-display:
+    'Space Grotesk Variable', 'Space Grotesk', 'Inter Variable', 'Inter',
+    ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+
   --color-bg: #e6e7ed;
   --color-surface: #e1e2e8;
   --color-surface-2: #d6d8df;
@@ -14,6 +24,7 @@
   --color-border: #c1c2c7;
   --color-accent: #2959aa;
   --color-accent-2: #65359d;
+  --color-glow: rgba(101, 53, 157, 0.07);
 }
 
 .dark {
@@ -28,6 +39,7 @@
   --color-border: #2a2e45;
   --color-accent: #7aa2f7;
   --color-accent-2: #bb9af7;
+  --color-glow: rgba(187, 154, 247, 0.06);
 }
 
 @layer base {
@@ -80,4 +92,48 @@
   font-style: var(--shiki-dark-font-style, inherit);
   font-weight: var(--shiki-dark-font-weight, inherit);
   text-decoration: var(--shiki-dark-text-decoration, inherit);
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-accent),
+    var(--color-accent-2)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-dot-grid {
+  background-image:
+    radial-gradient(circle, var(--color-fg-faint) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility mask-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+  }
 }

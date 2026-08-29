@@ -4,12 +4,21 @@ interface Props {
   class?: string
 }
 const { items, class: className = '' } = Astro.props
+const { pathname } = Astro.url
+
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href)
 ---
 {
   items.map((item) => (
     <a
       href={item.href}
-      class={`text-fg-muted transition-colors hover:text-accent ${className}`}
+      aria-current={isActive(item.href) ? 'page' : undefined}
+      class={`transition-colors hover:text-accent ${
+        isActive(item.href)
+          ? 'font-medium text-accent'
+          : 'text-fg-muted'
+      } ${className}`}
     >
       {item.label}
     </a>

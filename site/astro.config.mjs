@@ -2,11 +2,12 @@ import path from 'node:path'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
+import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
 import tokyoNightLight from './src/themes/tokyo-night-light.mjs'
 
 export default defineConfig({
-  integrations: [react(), mdx()],
+  integrations: [react(), mdx(), icon()],
   markdown: {
     shikiConfig: {
       themes: { light: tokyoNightLight, dark: 'tokyo-night' },

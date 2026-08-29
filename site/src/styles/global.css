@@ -30,6 +30,12 @@
   --color-accent-2: #bb9af7;
 }
 
+@layer base {
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 .prose-tokyo {
   --tw-prose-body: var(--color-fg);
   --tw-prose-headings: var(--color-fg);

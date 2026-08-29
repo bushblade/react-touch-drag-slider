@@ -3,14 +3,166 @@ layout: ../../layouts/DocLayout.astro
 title: Examples
 ---
 
+import DemoSlider from '../../components/DemoSlider'
+import ExampleCallbacks from '../../components/ExampleCallbacks'
+import ExampleKeyboard from '../../components/ExampleKeyboard'
+import ExampleScaleOnDrag from '../../components/ExampleScaleOnDrag'
+import ExampleThreshold from '../../components/ExampleThreshold'
+import ExampleTransition from '../../components/ExampleTransition'
+
 # Examples
 
-- [Threshold](/examples/threshold/) — how far a drag must go before the slide
-  snaps.
-- [Transition](/examples/transition/) — controlling the snap animation speed.
-- [Scale on drag](/examples/scale-on-drag/) — the slide scales while you drag.
-- [Controlled with buttons](/examples/controlled/) — driving `activeIndex`
+- [Threshold](#threshold) — how far a drag must go before the slide snaps.
+- [Transition](#transition) — controlling the snap animation speed.
+- [Scale on drag](#scale-on-drag) — the slide scales while you drag.
+- [Controlled with buttons](#controlled-with-buttons) — driving `activeIndex`
   from your own state with prev/next buttons.
-- [Callbacks](/examples/callbacks/) — watching `onSlideStart` and
-  `onSlideComplete`.
-- [Keyboard](/examples/keyboard/) — navigating with the arrow keys.
+- [Callbacks](#callbacks) — watching `onSlideStart` and `onSlideComplete`.
+- [Keyboard](#keyboard) — navigating with the arrow keys.
+- [Real-world usage](#real-world-usage) — a live site using the slider.
+
+<hr />
+
+## Threshold
+
+The `threshold` prop is the pixel distance a drag must exceed before the slider
+snaps to the next or previous slide. The default is `100`.
+
+This example uses `threshold={50}` — drag a shorter distance and it still snaps:
+
+<ExampleThreshold client:load />
+
+```jsx
+<Slider threshold={50}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+<hr />
+
+## Transition
+
+The `transition` prop sets the duration, in seconds, of the snap animation. The
+default is `0.3`.
+
+This example uses `transition={0.8}` — a slower, more noticeable snap:
+
+<ExampleTransition client:load />
+
+```jsx
+<Slider transition={0.8}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+<hr />
+
+## Scale on drag
+
+The `scaleOnDrag` prop adds a scale animation while a slide is being dragged:
+
+<ExampleScaleOnDrag client:load />
+
+```jsx
+<Slider scaleOnDrag>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+<hr />
+
+## Controlled with buttons
+
+The library renders slides only — it doesn't ship prev/next buttons. To add
+them, keep the current slide in your own state and pass it back as
+`activeIndex`, then update that state from your buttons:
+
+<DemoSlider client:load />
+
+```jsx
+import { useState } from 'react'
+import Slider from 'react-touch-drag-slider'
+
+function App() {
+  const [index, setIndex] = useState(0)
+
+  return (
+    <>
+      <button onClick={() => setIndex((i) => Math.max(0, i - 1))}>
+        Previous
+      </button>
+      <button
+        onClick={() => setIndex((i) => Math.min(images.length - 1, i + 1))}
+      >
+        Next
+      </button>
+      <Slider activeIndex={index} onSlideComplete={setIndex}>
+        {images.map(({ url, title }) => (
+          <img src={url} key={title} alt={title} />
+        ))}
+      </Slider>
+    </>
+  )
+}
+```
+
+`onSlideComplete={setIndex}` keeps the state in sync when the user drags
+instead of clicking a button.
+
+<hr />
+
+## Callbacks
+
+`onSlideStart` fires when a drag (or arrow-key move) begins; `onSlideComplete`
+fires when the slide settles into its finished position. Both receive the slide
+index.
+
+Drag the slider below and watch the log:
+
+<ExampleCallbacks client:load />
+
+```jsx
+<Slider
+  onSlideStart={(index) => console.log('started', index)}
+  onSlideComplete={(index) => console.log('finished', index)}
+>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+<hr />
+
+## Keyboard
+
+The slider wrapper is focusable (`tabIndex={0}`) and exposes `role="slider"`.
+Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
+
+<ExampleKeyboard client:load />
+
+```jsx
+<Slider threshold={100}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+> Note: the arrow-key listener is attached to `window`, so the arrow keys move
+> the slider even when it isn't focused. This is a known sharp edge — a
+> `navigateOnArrowKeys` prop (defaulting to `true`) is planned so you can turn
+> it off. Tracked in the [issue tracker](https://github.com/bushblade/react-touch-drag-slider/issues).
+
+<hr />
+
+## Real-world usage
+
+[Bushblade Knives gallery](https://bushblade.co.uk/knives/woodlore-clone) — a
+full screen modal gallery built with the slider.

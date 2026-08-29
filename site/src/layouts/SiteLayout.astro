@@ -1,15 +1,9 @@
 ---
 import '../styles/global.css'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
 
 const { title = 'react-touch-drag-slider' } = Astro.props
-
-const nav = [
-  { href: '/', label: 'Home' },
-  { href: '/usage/', label: 'Usage' },
-  { href: '/props/', label: 'Props' },
-  { href: '/examples/', label: 'Examples' },
-  { href: '/a11y/', label: 'Accessibility' },
-]
 ---
 <!doctype html>
 <html lang="en">
@@ -27,41 +21,10 @@ const nav = [
     </title>
   </head>
   <body class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased">
-    <header class="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
-      <nav class="mx-auto flex w-full max-w-4xl items-center gap-6 px-6 py-4">
-        <a href="/" class="font-semibold">react-touch-drag-slider</a>
-        <div class="ml-auto flex gap-5 text-sm">
-          {
-            nav.map((item) => (
-              <a href={item.href} class="text-neutral-600 hover:text-neutral-900">
-                {item.label}
-              </a>
-            ))
-          }
-        </div>
-      </nav>
-    </header>
+    <Header />
     <main class="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
       <slot />
     </main>
-    <footer class="border-t border-neutral-200 py-8 text-sm text-neutral-500">
-      <div class="mx-auto flex w-full max-w-4xl items-center justify-between px-6">
-        <span>react-touch-drag-slider · MIT</span>
-        <span class="flex gap-5">
-          <a
-            href="https://github.com/bushblade/react-touch-drag-slider"
-            class="hover:text-neutral-900"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.npmjs.com/package/react-touch-drag-slider"
-            class="hover:text-neutral-900"
-          >
-            npm
-          </a>
-        </span>
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "lsp": true,
+  "formatter": {
+    "biome": { "enabled": true }
+  },
+  "mcp": {
+    "Astro docs": {
+      "type": "remote",
+      "url": "https://mcp.docs.astro.build/mcp",
+      "enabled": true
+    },
+    "netlify-mcp": {
+      "type": "remote",
+      "url": "https://netlify-mcp.netlify.app/mcp",
+      "enabled": true
+    }
+  }
+}

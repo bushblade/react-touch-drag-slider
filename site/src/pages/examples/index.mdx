@@ -9,6 +9,7 @@ import ExampleKeyboard from '../../components/ExampleKeyboard'
 import ExampleScaleOnDrag from '../../components/ExampleScaleOnDrag'
 import ExampleThreshold from '../../components/ExampleThreshold'
 import ExampleTransition from '../../components/ExampleTransition'
+import BrowserFrame from '../../components/BrowserFrame.astro'
 
 # Examples
 
@@ -30,7 +31,9 @@ snaps to the next or previous slide. The default is `100`.
 
 This example uses `threshold={50}` — drag a shorter distance and it still snaps:
 
-<ExampleThreshold client:load />
+<BrowserFrame title="threshold · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <ExampleThreshold client:load />
+</BrowserFrame>
 
 ```jsx
 <Slider threshold={50}>
@@ -49,7 +52,9 @@ default is `0.3`.
 
 This example uses `transition={0.8}` — a slower, more noticeable snap:
 
-<ExampleTransition client:load />
+<BrowserFrame title="transition · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <ExampleTransition client:load />
+</BrowserFrame>
 
 ```jsx
 <Slider transition={0.8}>
@@ -65,7 +70,9 @@ This example uses `transition={0.8}` — a slower, more noticeable snap:
 
 The `scaleOnDrag` prop adds a scale animation while a slide is being dragged:
 
-<ExampleScaleOnDrag client:load />
+<BrowserFrame title="scale-on-drag · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <ExampleScaleOnDrag client:load />
+</BrowserFrame>
 
 ```jsx
 <Slider scaleOnDrag>
@@ -83,7 +90,9 @@ The library renders slides only — it doesn't ship prev/next buttons. To add
 them, keep the current slide in your own state and pass it back as
 `activeIndex`, then update that state from your buttons:
 
-<DemoSlider client:load />
+<BrowserFrame title="controlled · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <DemoSlider client:load />
+</BrowserFrame>
 
 ```jsx
 import { useState } from 'react'
@@ -125,7 +134,9 @@ index.
 
 Drag the slider below and watch the log:
 
-<ExampleCallbacks client:load />
+<BrowserFrame title="callbacks · react-touch-drag-slider" bodyClass="p-0">
+  <ExampleCallbacks client:load />
+</BrowserFrame>
 
 ```jsx
 <Slider
@@ -145,7 +156,9 @@ Drag the slider below and watch the log:
 The slider wrapper is focusable (`tabIndex={0}`) and exposes `role="slider"`.
 Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
 
-<ExampleKeyboard client:load />
+<BrowserFrame title="keyboard · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <ExampleKeyboard client:load />
+</BrowserFrame>
 
 ```jsx
 <Slider threshold={100}>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string
+  bodyClass?: string
+}
+
+const { title, bodyClass = 'p-6 sm:p-8' } = Astro.props
+---
+<div
+  class="overflow-hidden rounded-xl border border-border bg-surface shadow-[0_20px_50px_-24px_var(--color-glow)] ring-1 ring-accent/10"
+>
+  <div
+    class="flex items-center gap-2 border-b border-border bg-bg/60 px-4 py-3"
+    aria-hidden="true"
+  >
+    <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+    <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+    <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
+    <span class="ml-2 text-xs font-medium text-fg-faint">{title}</span>
+  </div>
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</div>

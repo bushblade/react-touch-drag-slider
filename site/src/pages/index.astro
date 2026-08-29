@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components'
 import SiteLayout from '../layouts/SiteLayout.astro'
 import DemoSlider from '../components/DemoSlider'
+import BrowserFrame from '../components/BrowserFrame.astro'
 
 const features = [
   {
@@ -85,24 +86,9 @@ const features = [
   </section>
 
   <section>
-    <div
-      class="overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_20px_50px_-24px_var(--color-glow)] ring-1 ring-accent/10"
-    >
-      <div
-        class="flex items-center gap-2 border-b border-border bg-bg/60 px-4 py-3"
-        aria-hidden="true"
-      >
-        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
-        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
-        <span class="h-3 w-3 rounded-full bg-fg-faint/40"></span>
-        <span class="ml-2 text-xs font-medium text-fg-faint">
-          demo · react-touch-drag-slider
-        </span>
-      </div>
-      <div class="p-6 sm:p-8">
-        <h2 class="mb-5 text-xl font-semibold">Live demo</h2>
-        <DemoSlider client:load />
-      </div>
-    </div>
+    <BrowserFrame title="demo · react-touch-drag-slider">
+      <h2 class="mb-5 text-xl font-semibold">Live demo</h2>
+      <DemoSlider client:load />
+    </BrowserFrame>
   </section>
 </SiteLayout>

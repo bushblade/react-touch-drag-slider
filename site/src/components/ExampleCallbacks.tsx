@@ -36,31 +36,30 @@ function ExampleCallbacks() {
   const isEmpty = log.every((entry) => entry.id < 0)
 
   return (
-    <div className="space-y-4">
-      <div className="h-64 w-full overflow-hidden rounded-lg">
-        <Slider
-          onSlideStart={handleSlideStart}
-          onSlideComplete={handleSlideComplete}
-          threshold={100}
-          transition={0.3}
-        >
-          {images.map(({ url, title }) => (
-            <img src={url} key={title} alt={title} />
-          ))}
-        </Slider>
+    <div className="flex flex-col">
+      <div className="p-4 sm:p-6">
+        <div className="h-64 w-full overflow-hidden rounded-lg">
+          <Slider
+            onSlideStart={handleSlideStart}
+            onSlideComplete={handleSlideComplete}
+            threshold={100}
+            transition={0.3}
+          >
+            {images.map(({ url, title }) => (
+              <img src={url} key={title} alt={title} />
+            ))}
+          </Slider>
+        </div>
       </div>
-      <div className="overflow-hidden rounded-lg border border-code-border bg-code-bg font-mono text-sm shadow-inner">
-        <div className="flex items-center gap-1.5 border-b border-code-border bg-surface-2 px-4 py-2">
-          <span className="h-3 w-3 rounded-full bg-red-500" />
-          <span className="h-3 w-3 rounded-full bg-yellow-500" />
-          <span className="h-3 w-3 rounded-full bg-green-500" />
-          <span className="ml-2 text-xs text-fg-faint">Console</span>
+      <div className="border-t border-border">
+        <div className="flex items-center gap-2 px-4 py-3">
+          <span className="text-xs font-medium text-fg-faint">Console</span>
           <button
             type="button"
             onClick={clearLog}
             aria-label="Clear console"
             title="Clear console"
-            className="ml-auto rounded p-1 text-fg-faint transition-colors hover:bg-surface hover:text-fg"
+            className="ml-auto rounded p-1 text-fg-faint transition-colors hover:text-fg"
           >
             <svg
               className="h-4 w-4"
@@ -76,7 +75,10 @@ function ExampleCallbacks() {
             </svg>
           </button>
         </div>
-        <ul className="space-y-1 px-4 py-3" aria-live="polite">
+        <ul
+          className="space-y-1 bg-code-bg px-4 py-3 font-mono text-sm"
+          aria-live="polite"
+        >
           {log.map((entry, index) => {
             const isBlank = entry.id < 0
             const isHint =

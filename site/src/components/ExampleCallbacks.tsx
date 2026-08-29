@@ -2,29 +2,35 @@ import { useRef, useState } from 'react'
 import Slider from 'react-touch-drag-slider'
 import images from '../images'
 
+const LOG_LENGTH = 4
+
 interface LogEntry {
   event: string
   index: number
   id: number
 }
 
+const blankEntry = (id: number): LogEntry => ({ event: '', index: -1, id })
+
 function ExampleCallbacks() {
-  const [log, setLog] = useState<LogEntry[]>([])
+  const [log, setLog] = useState<LogEntry[]>(() =>
+    Array.from({ length: LOG_LENGTH }, (_, i) => blankEntry(i - LOG_LENGTH)),
+  )
   const nextId = useRef(0)
 
-  const handleSlideStart = (index: number) => {
+  const addEntry = (event: string, index: number) => {
     setLog((prev) => [
-      ...prev,
-      { event: 'onSlideStart', index, id: nextId.current++ },
+      ...prev.slice(1),
+      { event, index, id: nextId.current++ },
     ])
   }
 
-  const handleSlideComplete = (index: number) => {
-    setLog((prev) => [
-      ...prev,
-      { event: 'onSlideComplete', index, id: nextId.current++ },
-    ])
-  }
+  const handleSlideStart = (index: number) => addEntry('onSlideStart', index)
+
+  const handleSlideComplete = (index: number) =>
+    addEntry('onSlideComplete', index)
+
+  const isEmpty = log.every((entry) => entry.id < 0)
 
   return (
     <div className="space-y-4">
@@ -41,15 +47,30 @@ function ExampleCallbacks() {
         </Slider>
       </div>
       <ul className="space-y-1 font-mono text-sm">
-        {log.length === 0 ? (
-          <li className="text-neutral-400">Drag or use the arrow keys to see the callbacks fire.</li>
-        ) : (
-          log.slice(-4).map((entry) => (
-            <li key={entry.id} className="text-neutral-700">
-              {entry.event} → slide {entry.index}
+        {log.map((entry, index) => {
+          const isBlank = entry.id < 0
+          const isHint =
+            isBlank && isEmpty && index === LOG_LENGTH - 1
+          return (
+            <li
+              key={entry.id}
+              aria-hidden={isBlank && !isHint}
+              className={
+                isBlank
+                  ? isHint
+                    ? 'text-neutral-400'
+                    : undefined
+                  : 'text-neutral-700'
+              }
+            >
+              {isBlank
+                ? isHint
+                  ? 'Drag or use the arrow keys to see the callbacks fire.'
+                  : ''
+                : `${entry.event} → slide ${entry.index}`}
             </li>
-          ))
-        )}
+          )
+        })}
       </ul>
     </div>
   )

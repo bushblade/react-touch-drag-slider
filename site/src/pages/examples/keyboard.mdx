@@ -1,0 +1,26 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: Keyboard
+---
+
+import ExampleKeyboard from '../../components/ExampleKeyboard'
+
+# Keyboard
+
+The slider wrapper is focusable (`tabIndex={0}`) and exposes `role="slider"`.
+Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
+
+<ExampleKeyboard client:load />
+
+```jsx
+<Slider threshold={100}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+> Note: the arrow-key listener is attached to `window`, so the arrow keys move
+> the slider even when it isn't focused. This is a known sharp edge — a
+> `navigateOnArrowKeys` prop (defaulting to `true`) is planned so you can turn
+> it off. Tracked in the [issue tracker](https://github.com/bushblade/react-touch-drag-slider/issues).

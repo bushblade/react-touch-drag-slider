@@ -25,7 +25,9 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "lint": "biome lint src/"
+    "lint": "biome lint src/ site/src",
+    "dev:site": "pnpm --filter site dev",
+    "build:site": "pnpm build && pnpm --filter site build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

@@ -1,0 +1,30 @@
+---
+layout: ../layouts/DocLayout.astro
+title: Accessibility
+---
+
+# Accessibility
+
+## Slider semantics
+
+The slider wrapper is rendered with `role="slider"` and `tabIndex={0}` so it
+can receive keyboard focus, and exposes:
+
+- `aria-valuemin` — the first slide index (`0`)
+- `aria-valuemax` — the last slide index
+- `aria-valuenow` — the current slide index, kept in sync with the live slide
+
+## Keyboard
+
+Focus the slider and press `ArrowLeft` or `ArrowRight` to move between slides.
+Arrow-key moves fire `onSlideStart` and `onSlideComplete` just like drags do.
+
+> Known edge: the arrow-key listener is attached to `window`, so the slider
+> responds to arrow keys even when it isn't focused. A `navigateOnArrowKeys`
+> prop (defaulting to `true`) is planned so sites can opt out. Tracked in the
+> [issue tracker](https://github.com/bushblade/react-touch-drag-slider/issues).
+
+## Pointer
+
+Slides use `touch-action: none` so drag gestures work without the browser
+panning the page, and the default context menu is suppressed during a drag.

@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Testing
+
+# astro
+site/.astro

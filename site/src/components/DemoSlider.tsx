@@ -1,0 +1,57 @@
+import { useState } from 'react'
+import Slider from 'react-touch-drag-slider'
+import images from '../images'
+
+function DemoSlider() {
+  const [index, setIndex] = useState(0)
+  const maxIndex = images.length - 1
+
+  const next = () => {
+    if (index < maxIndex) setIndex(index + 1)
+  }
+
+  const prev = () => {
+    if (index > 0) setIndex(index - 1)
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="h-80 w-full overflow-hidden rounded-lg">
+        <Slider
+          activeIndex={index}
+          onSlideComplete={setIndex}
+          threshold={100}
+          transition={0.3}
+          scaleOnDrag
+        >
+          {images.map(({ url, title }) => (
+            <img src={url} key={title} alt={title} />
+          ))}
+        </Slider>
+      </div>
+      <div className="flex items-center justify-center gap-4">
+        <button
+          type="button"
+          onClick={prev}
+          disabled={index === 0}
+          className="rounded border border-neutral-300 px-4 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Previous
+        </button>
+        <span className="text-sm text-neutral-500">
+          Slide {index + 1} of {maxIndex + 1}
+        </span>
+        <button
+          type="button"
+          onClick={next}
+          disabled={index === maxIndex}
+          className="rounded border border-neutral-300 px-4 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default DemoSlider

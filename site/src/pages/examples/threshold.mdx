@@ -1,0 +1,23 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: Threshold
+---
+
+import ExampleThreshold from '../../components/ExampleThreshold'
+
+# Threshold
+
+The `threshold` prop is the pixel distance a drag must exceed before the slider
+snaps to the next or previous slide. The default is `100`.
+
+This example uses `threshold={50}` — drag a shorter distance and it still snaps:
+
+<ExampleThreshold client:load />
+
+```jsx
+<Slider threshold={50}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```

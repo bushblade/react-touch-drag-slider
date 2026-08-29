@@ -1,0 +1,51 @@
+---
+layout: ../layouts/DocLayout.astro
+title: Usage
+---
+
+# Usage
+
+Install the package:
+
+```bash
+npm i react-touch-drag-slider
+```
+
+The slider renders whatever elements you pass as `children` — `<img>` tags,
+cards, or your own components — each becoming a draggable slide.
+
+```jsx
+import Slider from 'react-touch-drag-slider'
+
+const images = [
+  { title: 'Mountains', url: 'https://example.com/mountains.jpg' },
+  { title: 'Forest', url: 'https://example.com/forest.jpg' },
+]
+
+function App() {
+  return (
+    <Slider activeIndex={0} threshold={100} transition={0.3}>
+      {images.map(({ title, url }) => (
+        <img src={url} key={title} alt={title} />
+      ))}
+    </Slider>
+  )
+}
+
+export default App
+```
+
+## Sizing
+
+The slider fills its parent container and measures it on first render, so wrap
+it in an element with an explicit width and height:
+
+```jsx
+<div className="h-80 w-full overflow-hidden">
+  <Slider>
+    ...
+  </Slider>
+</div>
+```
+
+Resizing the window is handled automatically.

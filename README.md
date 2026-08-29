@@ -64,11 +64,15 @@ export default App
 | transition      | number                           | 0.3     | The transition delay in seconds                                     |
 | scaleOnDrag     | boolean                          | false   | Should the individual slide scale while dragging                    |
 
-## Examples
+## Docs & Examples
 
-Most basic example with no props - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-example-basic?file=src/App.jsx)
+Full documentation, prop reference, and live demos are on the
+[docs site](https://react-touch-drag-slider.netlify.app/):
 
-With props, local state and buttons (you provide the buttons) - [StackBlitz link](https://stackblitz.com/~/github.com/bushblade/rtds-advanced-example?file=src/App.jsx)
+- [Usage](https://react-touch-drag-slider.netlify.app/usage/)
+- [Props](https://react-touch-drag-slider.netlify.app/props/)
+- [Examples](https://react-touch-drag-slider.netlify.app/examples/)
+- [Accessibility](https://react-touch-drag-slider.netlify.app/a11y/)
 
 For example of use in a full screen modal with a gallery, please checkout any of the galleries in [Bushblade Knives](https://bushblade.co.uk)
 

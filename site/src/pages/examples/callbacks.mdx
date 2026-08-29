@@ -1,0 +1,27 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: Callbacks
+---
+
+import ExampleCallbacks from '../../components/ExampleCallbacks'
+
+# Callbacks
+
+`onSlideStart` fires when a drag (or arrow-key move) begins; `onSlideComplete`
+fires when the slide settles into its finished position. Both receive the slide
+index.
+
+Drag the slider below and watch the log:
+
+<ExampleCallbacks client:load />
+
+```jsx
+<Slider
+  onSlideStart={(index) => console.log('started', index)}
+  onSlideComplete={(index) => console.log('finished', index)}
+>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```

@@ -28,3 +28,5 @@ jobs:
       - run: pnpm test -- --run
 
       - run: pnpm build
+
+      - run: pnpm --filter site build

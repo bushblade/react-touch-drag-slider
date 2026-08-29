@@ -1,0 +1,42 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro'
+import DemoSlider from '../components/DemoSlider'
+---
+<SiteLayout>
+  <section class="pb-12">
+    <p class="mb-3 text-sm font-medium uppercase tracking-widest text-neutral-500">
+      React component
+    </p>
+    <h1 class="text-4xl font-bold tracking-tight">
+      Touch and drag slider for React
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-neutral-600">
+      A small, zero-dependency slider carousel. Swipe or drag to move between
+      slides, snaps into place past a threshold, and works with the keyboard.
+    </p>
+    <div class="mt-6 flex gap-4">
+      <a
+        href="/usage/"
+        class="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+      >
+        Get started
+      </a>
+      <a
+        href="/examples/"
+        class="rounded border border-neutral-300 px-4 py-2 text-sm font-medium"
+      >
+        Examples
+      </a>
+    </div>
+    <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-neutral-600">
+      <li>Touch friendly on mobile</li>
+      <li>Responsive to viewport resizing</li>
+      <li>Mouse drag by default</li>
+      <li>Zero dependencies</li>
+    </ul>
+  </section>
+  <section>
+    <h2 class="mb-4 text-2xl font-semibold">Live demo</h2>
+    <DemoSlider client:load />
+  </section>
+</SiteLayout>

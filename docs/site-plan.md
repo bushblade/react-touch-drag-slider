@@ -1,6 +1,8 @@
 # Site Plan: Astro + MDX docs site for react-touch-drag-slider
 
-Status: accepted (grilled and hardened 2026-08-29)
+Status: accepted (grilled and hardened 2026-08-29); implemented and deployed to
+https://react-touch-drag-slider.netlify.app/ on 2026-08-30. Retained as the
+decision record; see docs/site-audit.md for the post-deployment audit.
 
 ## Goal
 
@@ -56,13 +58,16 @@ repo root  (react-touch-drag-slider, the lib — build/scripts mostly untouched)
     └── src/
         ├── styles/global.css       @import 'tailwindcss'; @plugin '@tailwindcss/typography'
         ├── layouts/                SiteLayout.astro (nav / chrome), DocLayout.astro (prose)
-        ├── components/             DemoSlider.tsx + per-example islands (client:load)
+        ├── components/             DemoSlider.tsx (controlled w/ buttons),
+        │                           SliderExample.tsx (shared example island),
+        │                           ExampleCallbacks.tsx (on-slide log)
         └── pages/
             ├── index.astro         hero + live gallery demo
             ├── usage.mdx           install + minimal example
             ├── props.mdx           7-prop reference table (hand-written)
-            ├── examples/           threshold, transition, scale-on-drag, controlled
-            │                       (merged with buttons), callbacks, keyboard
+            ├── examples/index.mdx  all six examples on one page: threshold,
+            │                       transition, scale-on-drag, controlled w/
+            │                       buttons, callbacks, keyboard
             └── a11y.mdx            keyboard + aria behaviour, incl. window-listener caveat
 ```
 
@@ -103,25 +108,26 @@ repo root  (react-touch-drag-slider, the lib — build/scripts mostly untouched)
    - `SiteLayout.astro`: header/nav/footer chrome. `DocLayout.astro` wraps MDX
      content in `prose`; `index.astro` uses bespoke markup.
    - `DemoSlider.tsx`: gallery island (`client:load`) — controlled
-     `activeIndex` with prev/next buttons, ported from `src/App.tsx`.
-   - Per-example islands for threshold, transition, scale-on-drag, callbacks
-     (on-slide log), keyboard.
+      `activeIndex` with prev/next buttons, ported from `src/App.tsx`.
+   - A single prop-driven `SliderExample.tsx` island covers threshold,
+     transition, scale-on-drag and keyboard; `ExampleCallbacks.tsx` (on-slide
+     log) renders it too. All examples consolidated onto one
+     `examples/index.mdx` page.
    - `usage.mdx`, `props.mdx` (7-prop hand-written table), `a11y.mdx`.
-   - `examples/`: threshold, transition, scale-on-drag, controlled (merged
-     with buttons), callbacks, keyboard.
 
 5. **Consolidation**
    - Port the two StackBlitz examples (`rtds-example-basic`,
      `rtds-advanced-example`) into `examples/` pages.
    - Retain both StackBlitz repos (deleting them would 404 existing npm/README
-     links); update README links to point at the site; add a deprecation note
-     to each repo's README (external follow-up).
+     links). README links updated to point at the site (commit 92650d2).
+     PENDING (external): deprecation note on each repo's README.
    - Keep the busbhlade.co.uk gallery link as a real-world example.
 
 6. **Housekeeping**
    - `site/dist` is covered by the global `dist` ignore in `.gitignore`.
-   - `pnpm lint` becomes `biome lint src/ site/src/**/*.{ts,tsx}` (Biome has
-     `files.ignoreUnknown: false`; `.astro`/`.mdx` are `astro check`'s job).
+   - `pnpm lint` becomes `biome lint src/ site/src` (Biome has
+      `files.ignoreUnknown: false`; `.astro`/`.mdx` are `astro check`'s job;
+      file scoping lives in biome.json `includes`).
    - ADR `0002` documents this architecture.
 
 ## Implementation notes & gotchas (verified)
@@ -147,4 +153,19 @@ repo root  (react-touch-drag-slider, the lib — build/scripts mostly untouched)
   drop README links, deprecation note per repo (external follow-up).
 - `navigateOnArrowKeys` prop idea (default `true`) → tracked as a GitHub
   issue; lib scope, not part of the site work.
-- Site URL is the Netlify default subdomain until a custom domain is set.
+- Site URL → deployed at the Netlify default subdomain
+  (https://react-touch-drag-slider.netlify.app/); custom domain not set.
+
+## Implemented beyond the plan
+
+- `site` set in `astro.config.mjs` + `@astrojs/sitemap` (canonical URLs,
+  sitemap-index.xml); `public/` with favicon, robots.txt, og-image.png; OG/Twitter
+  meta in `SiteLayout.astro`.
+- Self-hosted fonts (`@fontsource-variable/inter`, `@fontsource-variable/space-
+  grotesk`, `@fontsource/jetbrains-mono`); astro-icon with lucide/simple-icons;
+  light/dark theme toggle (tokyo-night shiki themes); heading anchors + smooth
+  scroll; 404 page; `BrowserFrame.astro` example wrapper.
+- A11y pass from `docs/site-audit.md` (contrast fixes, aria-labels, focus
+  return, `:focus-visible` outline).
+- GitHub Actions `ci.yml` added as the quality gate (lint, typecheck, tests,
+  lib + site build); Netlify remains deploy-only.

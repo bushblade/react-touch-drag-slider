@@ -78,10 +78,12 @@ Netlify deployment.
 - [x] **4.1 Docs verified accurate** against `Slider.tsx` (props table,
   defaults, a11y claims all match); self-hosted fonts; external links
   `rel="noopener noreferrer"`; recent `BrowserFrame` extraction is clean.
-- [ ] **4.2 Gap vs. plan:** `docs/site-plan.md` step 5 calls for a `ci.yml`
+- [x] **4.2 Gap vs. plan:** `docs/site-plan.md` step 5 calls for a `ci.yml`
   site-build step, but `.github/` has only `FUNDING.yml` — Netlify is
   currently deploy-only with no quality gate (per plan this was intended to
-  be CI's job). Worth flagging before relying on the deploy.
+  be CI's job). Worth flagging before relying on the deploy. Resolved: a
+  `ci.yml` workflow now exists (`.github/workflows/ci.yml`) with a
+  `pnpm --filter site build` step; the audit predates it.
 - [ ] **4.3 No unit tests, a11y checks, or Lighthouse step** in the site
   pipeline (acceptable for a docs site, but noted).
 - [x] **4.4 Window-keydown listener caveat** accurately documented in both

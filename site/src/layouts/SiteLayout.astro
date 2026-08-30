@@ -6,22 +6,41 @@ import '../styles/global.css'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
 
-const { title = 'react-touch-drag-slider' } = Astro.props
+const {
+  title = 'react-touch-drag-slider',
+  description = 'Docs and demos for react-touch-drag-slider, a touch and drag slider carousel component for React.',
+  ogImage = '/og-image.png',
+} = Astro.props
+
+const fullTitle =
+  title === 'react-touch-drag-slider'
+    ? title
+    : `${title} · react-touch-drag-slider`
+
+const site = Astro.site
+const url = site ? new URL(Astro.url.pathname, site) : undefined
+const imageUrl = site && ogImage.startsWith('/') ? new URL(ogImage, site) : ogImage
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Docs and demos for react-touch-drag-slider, a touch and drag slider carousel component for React."
-    />
-    <title>
-      {title === 'react-touch-drag-slider'
-        ? title
-        : `${title} · react-touch-drag-slider`}
-    </title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+    {url ? <link rel="canonical" href={url} /> : null}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="react-touch-drag-slider" />
+    {imageUrl ? <meta property="og:image" content={imageUrl} /> : null}
+    {url ? <meta property="og:url" content={url} /> : null}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {imageUrl ? <meta name="twitter:image" content={imageUrl} /> : null}
     <script is:inline>
       ;(() => {
         const stored = localStorage.getItem('theme')

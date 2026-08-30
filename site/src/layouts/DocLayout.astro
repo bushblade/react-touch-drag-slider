@@ -1,9 +1,16 @@
 ---
 import SiteLayout from './SiteLayout.astro'
 
-const { title = 'react-touch-drag-slider' } = Astro.props
+const { frontmatter = {} } = Astro.props
+const title = frontmatter.title ?? 'react-touch-drag-slider'
+const description = frontmatter.description
+const ogImage = frontmatter.ogImage
 ---
-<SiteLayout title={title}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+>
   <div class="prose prose-tokyo max-w-none">
     <slot />
   </div>

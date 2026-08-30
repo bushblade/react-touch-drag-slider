@@ -33,17 +33,27 @@ Netlify deployment.
 
 ## 2. SEO
 
-- [ ] **2.1 No `site` in `astro.config.mjs`** and no `@astrojs/sitemap` → no
-  canonical URLs, no sitemap.xml. URL is the Netlify default subdomain for
-  now — leave `site` config as a TODO placeholder until the URL is known.
-- [ ] **2.2 No `public/` directory** → no favicon (404 every page), no
-  `robots.txt`, no `og:image`.
-- [ ] **2.3 No Open Graph / Twitter meta** in `SiteLayout.astro` head → bare
-  share cards on social.
-- [ ] **2.4 Index `<title>`** is just the brand; suggest keyword-first "Touch
-  and drag slider for React".
+- [x] **2.1 No `site` in `astro.config.mjs`** and no `@astrojs/sitemap` → no
+  canonical URLs, no sitemap.xml. Resolved: `site` set to the Netlify URL,
+  `@astrojs/sitemap` added (sitemap-index.xml + sitemap-0.xml generated);
+  canonical + `og:url` emitted per page from `Astro.site`.
+- [x] **2.2 No `public/` directory** → no favicon (404 every page), no
+  `robots.txt`, no `og:image`. Resolved: `site/public/` added with
+  `favicon.svg` (the header-logo glyph; linked + apple-touch-icon),
+  `robots.txt` (allow-all + Sitemap line), and a 1200×630 `og-image.png`
+  (RGB) captured from a live screenshot of the site.
+- [x] **2.3 No Open Graph / Twitter meta** in `SiteLayout.astro` head → bare
+  share cards on social. Resolved: `og:title/description/type/site_name/
+  image/url` + `twitter:card=summary_large_image` etc., driven by
+  `title`/`description`/`ogImage` layout props.
+- [x] **2.4 Index `<title>`** is just the brand; now keyword-first "Touch and
+  drag slider for React" → "Touch and drag slider for React ·
+  react-touch-drag-slider".
 - [x] **2.5 Per-page titles/layouts are otherwise good**; anchor links have
-  proper `aria-label`s and `tabIndex={-1}`.
+  proper `aria-label`s and `tabIndex={-1}`. Note: MDX `title` frontmatter was
+  silently dropped by the layout (Astro 7 passes it via `frontmatter`, not
+  top-level props) — `DocLayout` now reads `frontmatter.title`, so per-page
+  titles render correctly.
 
 ## 3. Component reuse / redundancy
 

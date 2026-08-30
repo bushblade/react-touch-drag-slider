@@ -2,6 +2,7 @@ import path from 'node:path'
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
+import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
@@ -10,7 +11,8 @@ import rehypeSlug from 'rehype-slug'
 import tokyoNightLight from './src/themes/tokyo-night-light.mjs'
 
 export default defineConfig({
-  integrations: [react(), mdx(), icon()],
+  site: 'https://react-touch-drag-slider.netlify.app/',
+  integrations: [react(), mdx(), sitemap(), icon()],
   markdown: {
     processor: unified({
       rehypePlugins: [

@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
-import Slider from 'react-touch-drag-slider'
-import images from '../images'
+import SliderExample from './SliderExample'
 
 const LOG_LENGTH = 4
 
@@ -20,10 +19,7 @@ function ExampleCallbacks() {
   const nextId = useRef(0)
 
   const addEntry = (event: string, index: number) => {
-    setLog((prev) => [
-      ...prev.slice(1),
-      { event, index, id: nextId.current++ },
-    ])
+    setLog(prev => [...prev.slice(1), { event, index, id: nextId.current++ }])
   }
 
   const clearLog = () => setLog(makeBlankLog)
@@ -33,23 +29,17 @@ function ExampleCallbacks() {
   const handleSlideComplete = (index: number) =>
     addEntry('onSlideComplete', index)
 
-  const isEmpty = log.every((entry) => entry.id < 0)
+  const isEmpty = log.every(entry => entry.id < 0)
 
   return (
     <div className="flex flex-col">
       <div className="p-4 sm:p-6">
-        <div className="h-64 w-full overflow-hidden rounded-lg">
-          <Slider
-            onSlideStart={handleSlideStart}
-            onSlideComplete={handleSlideComplete}
-            threshold={100}
-            transition={0.3}
-          >
-            {images.map(({ url, title }) => (
-              <img src={url} key={title} alt={title} />
-            ))}
-          </Slider>
-        </div>
+        <SliderExample
+          onSlideStart={handleSlideStart}
+          onSlideComplete={handleSlideComplete}
+          threshold={100}
+          transition={0.3}
+        />
       </div>
       <div className="border-t border-border">
         <div className="flex items-center gap-2 px-4 py-3">
@@ -81,8 +71,7 @@ function ExampleCallbacks() {
         >
           {log.map((entry, index) => {
             const isBlank = entry.id < 0
-            const isHint =
-              isBlank && isEmpty && index === LOG_LENGTH - 1
+            const isHint = isBlank && isEmpty && index === LOG_LENGTH - 1
             return (
               <li
                 key={entry.id}

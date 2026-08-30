@@ -57,21 +57,29 @@ Netlify deployment.
 
 ## 3. Component reuse / redundancy
 
-- [ ] **3.1 Four near-identical islands** — `ExampleThreshold`,
+- [x] **3.1 Four near-identical islands** — `ExampleThreshold`,
   `ExampleTransition`, `ExampleScaleOnDrag`, `ExampleKeyboard` differ only in
   Slider props, and the `<div class="h-64 …"><Slider>…</Slider></div>` block
   is repeated 5× across examples. Extract a single prop-driven
-  `SliderExample.tsx`.
-- [ ] **3.2 Unused CSS tokens** — `--color-surface-2` is defined
+  `SliderExample.tsx`. Resolved: new `SliderExample.tsx` (forwarded
+  `ComponentProps<typeof Slider>`, shared wrapper + images map); the four
+  islands are deleted and their props inlined at the MDX call sites;
+  `ExampleCallbacks` now renders `SliderExample` too (5× → 1× wrapper).
+- [x] **3.2 Unused CSS tokens** — `--color-surface-2` is defined
   (`global.css`) but never referenced; `--color-code-border` used once and
-  equals `--color-border`.
-- [ ] **3.3 Duplicated `.astro-code` / `.dark .astro-code`** rules
+  equals `--color-border`. Resolved: both tokens deleted; code-block border
+  now uses `--color-border`.
+- [x] **3.3 Duplicated `.astro-code` / `.dark .astro-code`** rules
   (`global.css`) — four identical declarations, mergeable into one selector
-  list.
-- [ ] **3.4 `src/icons/` is dead** — only `.gitkeep`; astro-icon uses the
-  Iconify sets.
-- [ ] **3.5 `DemoSlider` prev/next buttons** share identical class strings
-  (minor).
+  list. Resolved: shared bg/border/radius merged into `.astro-code,
+  .dark .astro-code`; `.dark` only overrides color. `.astro-code span` rules
+  kept separate — their `font-style/weight/decoration` use per-theme shiki
+  vars and are not mergeable.
+- [x] **3.4 `src/icons/` is dead** — only `.gitkeep`; astro-icon uses the
+  Iconify sets. Resolved: directory deleted. Note: astro-icon's default
+  local-icon scan emits a non-fatal `ENOENT` warning per build.
+- [x] **3.5 `DemoSlider` prev/next buttons** share identical class strings
+  (minor). Resolved: hoisted to a shared `buttonClass` const.
 
 ## 4. Code practice
 

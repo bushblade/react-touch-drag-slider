@@ -2,6 +2,9 @@ import { useState } from 'react'
 import Slider from 'react-touch-drag-slider'
 import images from '../images'
 
+const buttonClass =
+  'rounded border border-border px-4 py-1.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg'
+
 function DemoSlider() {
   const [index, setIndex] = useState(0)
   const maxIndex = images.length - 1
@@ -34,7 +37,7 @@ function DemoSlider() {
           type="button"
           onClick={prev}
           disabled={index === 0}
-          className="rounded border border-border px-4 py-1.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg"
+          className={buttonClass}
         >
           Previous
         </button>
@@ -45,7 +48,7 @@ function DemoSlider() {
           type="button"
           onClick={next}
           disabled={index === maxIndex}
-          className="rounded border border-border px-4 py-1.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg"
+          className={buttonClass}
         >
           Next
         </button>

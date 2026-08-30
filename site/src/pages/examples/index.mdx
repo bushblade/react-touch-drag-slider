@@ -5,10 +5,7 @@ title: Examples
 
 import DemoSlider from '../../components/DemoSlider'
 import ExampleCallbacks from '../../components/ExampleCallbacks'
-import ExampleKeyboard from '../../components/ExampleKeyboard'
-import ExampleScaleOnDrag from '../../components/ExampleScaleOnDrag'
-import ExampleThreshold from '../../components/ExampleThreshold'
-import ExampleTransition from '../../components/ExampleTransition'
+import SliderExample from '../../components/SliderExample'
 import BrowserFrame from '../../components/BrowserFrame.astro'
 
 # Examples
@@ -32,7 +29,7 @@ snaps to the next or previous slide. The default is `100`.
 This example uses `threshold={50}` — drag a shorter distance and it still snaps:
 
 <BrowserFrame title="threshold · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
-  <ExampleThreshold client:load />
+  <SliderExample threshold={50} transition={0.3} client:load />
 </BrowserFrame>
 
 ```jsx
@@ -53,7 +50,7 @@ default is `0.3`.
 This example uses `transition={0.8}` — a slower, more noticeable snap:
 
 <BrowserFrame title="transition · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
-  <ExampleTransition client:load />
+  <SliderExample threshold={100} transition={0.8} client:load />
 </BrowserFrame>
 
 ```jsx
@@ -71,7 +68,7 @@ This example uses `transition={0.8}` — a slower, more noticeable snap:
 The `scaleOnDrag` prop adds a scale animation while a slide is being dragged:
 
 <BrowserFrame title="scale-on-drag · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
-  <ExampleScaleOnDrag client:load />
+  <SliderExample threshold={80} transition={0.4} scaleOnDrag client:load />
 </BrowserFrame>
 
 ```jsx
@@ -157,7 +154,7 @@ The slider wrapper is focusable (`tabIndex={0}`) and exposes `role="slider"`.
 Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
 
 <BrowserFrame title="keyboard · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
-  <ExampleKeyboard client:load />
+  <SliderExample threshold={100} transition={0.3} client:load />
 </BrowserFrame>
 
 ```jsx

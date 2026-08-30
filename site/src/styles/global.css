@@ -15,9 +15,7 @@
 
   --color-bg: #e6e7ed;
   --color-surface: #e1e2e8;
-  --color-surface-2: #d6d8df;
   --color-code-bg: #dfe1e9;
-  --color-code-border: #c1c2c7;
   --color-fg: #343b59;
   --color-fg-muted: #5c5f70;
   --color-fg-faint: #606374;
@@ -30,9 +28,7 @@
 .dark {
   --color-bg: #1a1b26;
   --color-surface: #16161e;
-  --color-surface-2: #292e42;
   --color-code-bg: #16161e;
-  --color-code-border: #2a2e45;
   --color-fg: #c0caf5;
   --color-fg-muted: #a9b1d6;
   --color-fg-faint: #7e89b0;
@@ -111,11 +107,16 @@
   opacity: 1;
 }
 
-.astro-code {
+.astro-code,
+.dark .astro-code {
   color: var(--shiki-light, inherit);
   background-color: var(--color-code-bg);
-  border: 1px solid var(--color-code-border);
+  border: 1px solid var(--color-border);
   border-radius: 0.75rem;
+}
+
+.dark .astro-code {
+  color: var(--shiki-dark, inherit);
 }
 
 .astro-code span {
@@ -123,13 +124,6 @@
   font-style: var(--shiki-light-font-style, inherit);
   font-weight: var(--shiki-light-font-weight, inherit);
   text-decoration: var(--shiki-light-text-decoration, inherit);
-}
-
-.dark .astro-code {
-  color: var(--shiki-dark, inherit);
-  background-color: var(--color-code-bg);
-  border: 1px solid var(--color-code-border);
-  border-radius: 0.75rem;
 }
 
 .dark .astro-code span {

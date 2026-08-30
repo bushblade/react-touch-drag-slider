@@ -1,26 +1,26 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans:
-    'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-display:
-    'Space Grotesk Variable', 'Space Grotesk', 'Inter Variable', 'Inter',
+    "Space Grotesk Variable", "Space Grotesk", "Inter Variable", "Inter",
     ui-sans-serif, system-ui, sans-serif;
   --font-mono:
-    'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular,
     Menlo, Consolas, monospace;
 
   --color-bg: #e6e7ed;
   --color-surface: #e1e2e8;
   --color-surface-2: #d6d8df;
-  --color-code-bg: #d6d8df;
+  --color-code-bg: #dfe1e9;
   --color-code-border: #c1c2c7;
   --color-fg: #343b59;
-  --color-fg-muted: #707280;
-  --color-fg-faint: #9da0ab;
+  --color-fg-muted: #5c5f70;
+  --color-fg-faint: #606374;
   --color-border: #c1c2c7;
   --color-accent: #2959aa;
   --color-accent-2: #65359d;
@@ -35,7 +35,7 @@
   --color-code-border: #2a2e45;
   --color-fg: #c0caf5;
   --color-fg-muted: #a9b1d6;
-  --color-fg-faint: #565f89;
+  --color-fg-faint: #7e89b0;
   --color-border: #2a2e45;
   --color-accent: #7aa2f7;
   --color-accent-2: #bb9af7;
@@ -45,6 +45,11 @@
 @layer base {
   button:not(:disabled) {
     cursor: pointer;
+  }
+
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
@@ -90,7 +95,7 @@
 }
 
 .prose .anchor::before {
-  content: '#';
+  content: "#";
 }
 
 .prose .anchor .icon {
@@ -146,8 +151,11 @@
 }
 
 @utility bg-dot-grid {
-  background-image:
-    radial-gradient(circle, var(--color-fg-faint) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    var(--color-fg-faint) 1px,
+    transparent 1px
+  );
   background-size: 24px 24px;
 }
 

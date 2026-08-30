@@ -38,7 +38,7 @@ function DemoSlider() {
         >
           Previous
         </button>
-        <span className="text-sm text-fg-faint">
+        <span aria-live="polite" className="text-sm text-fg-faint">
           Slide {index + 1} of {maxIndex + 1}
         </span>
         <button

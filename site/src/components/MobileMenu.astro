@@ -10,7 +10,7 @@ const { items } = Astro.props
   id="mobile-menu"
   class="absolute inset-x-0 top-full z-50 hidden border-b border-border bg-bg/90 shadow-md backdrop-blur md:hidden"
 >
-  <nav class="mx-auto flex w-full max-w-4xl flex-col px-6 py-3">
+  <nav aria-label="Mobile" class="mx-auto flex w-full max-w-4xl flex-col px-6 py-3">
     <NavLinks items={items} class="py-3" />
   </nav>
 </div>
@@ -36,7 +36,11 @@ const { items } = Astro.props
   })
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setMenuOpen(false)
+    if (event.key === 'Escape') {
+      const isOpen = !mobileMenu?.classList.contains('hidden')
+      setMenuOpen(false)
+      if (isOpen) menuToggle?.focus()
+    }
   })
 
   document.addEventListener('click', (event) => {

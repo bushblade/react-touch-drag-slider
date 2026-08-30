@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro'
+---
+<SiteLayout
+  title="404"
+  description="Page not found."
+>
+  <section class="flex flex-col items-center justify-center py-24 text-center">
+    <h1 class="text-6xl font-bold tracking-tight text-gradient">404</h1>
+    <p class="mt-4 text-fg-muted">That page doesn't exist.</p>
+    <a
+      href="/"
+      class="mt-8 rounded-lg bg-gradient-to-r from-accent to-accent-2 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-8px_var(--color-glow)] transition-all hover:brightness-110 dark:text-bg"
+    >
+      Back home
+    </a>
+  </section>
+</SiteLayout>

@@ -76,8 +76,9 @@ Netlify deployment.
   kept separate — their `font-style/weight/decoration` use per-theme shiki
   vars and are not mergeable.
 - [x] **3.4 `src/icons/` is dead** — only `.gitkeep`; astro-icon uses the
-  Iconify sets. Resolved: directory deleted. Note: astro-icon's default
-  local-icon scan emits a non-fatal `ENOENT` warning per build.
+  Iconify sets. Resolved: no local icons exist, but the empty dir is kept —
+  astro-icon's default local-icon scan expects it and otherwise warns per
+  build.
 - [x] **3.5 `DemoSlider` prev/next buttons** share identical class strings
   (minor). Resolved: hoisted to a shared `buttonClass` const.
 

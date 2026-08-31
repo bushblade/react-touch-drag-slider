@@ -27,7 +27,7 @@ exports[`Slider test > It should render 1`] = `
         >
           <div
             class="slide-outer"
-            style="touch-action: none;"
+            style="touch-action: pan-y pinch-zoom;"
           >
             <div
               class="rtds-single-slide-styles"
@@ -45,7 +45,7 @@ exports[`Slider test > It should render 1`] = `
           </div>
           <div
             class="slide-outer"
-            style="touch-action: none;"
+            style="touch-action: pan-y pinch-zoom;"
           >
             <div
               class="rtds-single-slide-styles"
@@ -63,7 +63,7 @@ exports[`Slider test > It should render 1`] = `
           </div>
           <div
             class="slide-outer"
-            style="touch-action: none;"
+            style="touch-action: pan-y pinch-zoom;"
           >
             <div
               class="rtds-single-slide-styles"
@@ -81,7 +81,7 @@ exports[`Slider test > It should render 1`] = `
           </div>
           <div
             class="slide-outer"
-            style="touch-action: none;"
+            style="touch-action: pan-y pinch-zoom;"
           >
             <div
               class="rtds-single-slide-styles"
@@ -99,7 +99,7 @@ exports[`Slider test > It should render 1`] = `
           </div>
           <div
             class="slide-outer"
-            style="touch-action: none;"
+            style="touch-action: pan-y pinch-zoom;"
           >
             <div
               class="rtds-single-slide-styles"
@@ -142,7 +142,7 @@ exports[`Slider test > It should render 1`] = `
       >
         <div
           class="slide-outer"
-          style="touch-action: none;"
+          style="touch-action: pan-y pinch-zoom;"
         >
           <div
             class="rtds-single-slide-styles"
@@ -160,7 +160,7 @@ exports[`Slider test > It should render 1`] = `
         </div>
         <div
           class="slide-outer"
-          style="touch-action: none;"
+          style="touch-action: pan-y pinch-zoom;"
         >
           <div
             class="rtds-single-slide-styles"
@@ -178,7 +178,7 @@ exports[`Slider test > It should render 1`] = `
         </div>
         <div
           class="slide-outer"
-          style="touch-action: none;"
+          style="touch-action: pan-y pinch-zoom;"
         >
           <div
             class="rtds-single-slide-styles"
@@ -196,7 +196,7 @@ exports[`Slider test > It should render 1`] = `
         </div>
         <div
           class="slide-outer"
-          style="touch-action: none;"
+          style="touch-action: pan-y pinch-zoom;"
         >
           <div
             class="rtds-single-slide-styles"
@@ -214,7 +214,7 @@ exports[`Slider test > It should render 1`] = `
         </div>
         <div
           class="slide-outer"
-          style="touch-action: none;"
+          style="touch-action: pan-y pinch-zoom;"
         >
           <div
             class="rtds-single-slide-styles"

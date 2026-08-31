@@ -404,7 +404,7 @@ function Slider({
               }}
               className="slide-outer"
               style={{
-                touchAction: 'none',
+                touchAction: 'pan-y pinch-zoom',
               }}
             >
               <Slide

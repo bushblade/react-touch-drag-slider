@@ -26,5 +26,7 @@ useful for sliders nested inside other keyboard-driven UI.
 
 ## Pointer
 
-Slides use `touch-action: none` so drag gestures work without the browser
-panning the page, and the default context menu is suppressed during a drag.
+Slides use `touch-action: pan-y pinch-zoom` so drag gestures work without the
+browser panning horizontally, while still allowing vertical page scrolling and
+pinch-to-zoom on the slide content. The default context menu is suppressed
+during a drag.

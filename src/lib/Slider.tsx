@@ -12,7 +12,7 @@ import { getElementDimensions } from '../utils'
 import Slide from './Slide'
 import SliderPosition from './sliderPosition'
 
-interface SliderProps {
+export interface SliderProps {
   children: ReactElement[]
   onSlideComplete?: (index: number) => void
   onSlideStart?: (index: number) => void

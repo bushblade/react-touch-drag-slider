@@ -43,6 +43,7 @@ function App() {
         threshold={100}
         transition={0.3}
         scaleOnDrag={true}
+        spring={true}
       >
         {images.map(({ url, title }) => (
           <img src={url} key={`${title}-${url}`} alt={title} />

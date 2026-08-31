@@ -187,3 +187,89 @@ describe('Slider drag interaction', () => {
     result.unmount()
   })
 })
+
+describe('Slider spring animation', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+    vi.useRealTimers()
+  })
+
+  const renderSlider = () => {
+    const result = render(
+      <Slider spring={true}>
+        {images.map(image => (
+          <img src={image.url} alt={image.title} key={image.url} />
+        ))}
+      </Slider>
+    )
+    const slides = () =>
+      result.container.querySelectorAll<HTMLElement>('.slide-outer')
+    const slider = () =>
+      result.container.querySelector<HTMLElement>('[data-testid="slider"]')
+    return { result, slides, slider }
+  }
+
+  const setSlideWidth = (sliderEl: HTMLElement, width: number) => {
+    Object.defineProperty(sliderEl, 'clientWidth', {
+      value: width,
+      configurable: true,
+    })
+    Object.defineProperty(sliderEl, 'clientHeight', {
+      value: width / 1.5,
+      configurable: true,
+    })
+    window.dispatchEvent(new Event('resize'))
+  }
+
+  const drag = (slide: HTMLElement, from: number, to: number) => {
+    fireEvent.pointerDown(slide, { clientX: from })
+    fireEvent.pointerMove(slide, { clientX: to })
+    fireEvent.pointerUp(slide)
+  }
+
+  test('It springs to the snapped slide and settles at the target transform', () => {
+    vi.useFakeTimers()
+    const { result, slides, slider } = renderSlider()
+    const el = slides()[0]
+    const sliderEl = slider()
+    if (!el || !sliderEl) throw new Error('elements not found')
+
+    setSlideWidth(sliderEl, 300)
+
+    drag(el, 200, 50) // movedBy -150 < -threshold(100)
+    expect(sliderEl.getAttribute('aria-valuenow')).toBe('1')
+
+    const rafSpy = vi.spyOn(window, 'requestAnimationFrame')
+    vi.advanceTimersByTime(2000)
+
+    expect(sliderEl.style.transform).toBe('translateX(-300px)')
+
+    const callsAfterSettle = rafSpy.mock.calls.length
+    vi.advanceTimersByTime(500)
+    expect(rafSpy.mock.calls.length).toBe(callsAfterSettle)
+
+    result.unmount()
+  })
+
+  test('It cancels an in-flight spring when a new drag starts', () => {
+    vi.useFakeTimers()
+    const { result, slides, slider } = renderSlider()
+    const el = slides()[0]
+    const sliderEl = slider()
+    if (!el || !sliderEl) throw new Error('elements not found')
+
+    setSlideWidth(sliderEl, 300)
+
+    drag(el, 200, 50)
+    vi.advanceTimersByTime(100) // spring is mid-flight
+
+    fireEvent.pointerDown(slides()[1], { clientX: 150 })
+    fireEvent.pointerUp(slides()[1])
+
+    vi.advanceTimersByTime(2000)
+
+    expect(sliderEl.getAttribute('aria-valuenow')).toBe('1')
+    expect(sliderEl.style.transform).toBe('translateX(-300px)')
+    result.unmount()
+  })
+})

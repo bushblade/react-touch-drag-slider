@@ -11,6 +11,7 @@ import {
 import { getElementDimensions } from '../utils'
 import Slide from './Slide'
 import SliderPosition from './sliderPosition'
+import Spring from './spring'
 
 export interface SliderProps {
   children: ReactElement[]
@@ -21,6 +22,10 @@ export interface SliderProps {
   transition?: number
   scaleOnDrag?: boolean
   navigateOnArrowKeys?: boolean
+  spring?: boolean
+  stiffness?: number
+  damping?: number
+  mass?: number
 }
 
 /**
@@ -39,8 +44,16 @@ export interface SliderProps {
  * while moving
  * @param props.navigateOnArrowKeys - Choose if arrow keys should navigate when
  * the slider is focused
+ * @param props.spring - Choose if the slide should settle with spring physics
+ * instead of a CSS transition
+ * @param props.stiffness - The spring stiffness when spring is enabled
+ * @param props.damping - The spring damping when spring is enabled
+ * @param props.mass - The spring mass when spring is enabled
  *
  */
+
+const MAX_VELOCITY = 5000
+const MAX_FRAME_TIME = 1 / 30
 
 function Slider({
   children,
@@ -51,6 +64,10 @@ function Slider({
   transition = 0.3,
   scaleOnDrag = false,
   navigateOnArrowKeys = true,
+  spring = false,
+  stiffness = 180,
+  damping = 16,
+  mass = 1,
 }: SliderProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [currentIndex, setCurrentIndex] = useState(activeIndex ?? 0)
@@ -61,6 +78,12 @@ function Slider({
   const prevTranslate = useRef(0)
   const sliderRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
+  const velocityRef = useRef(0)
+  const lastMoveTimeRef = useRef(0)
+  const lastMoveTranslateRef = useRef(0)
+  const springRef = useRef<number | null>(null)
+  const springStateRef = useRef<Spring | null>(null)
+  const springFrameTimeRef = useRef(0)
   const sliderPositionRef = useRef<SliderPosition | null>(null)
   const sliderConfigRef = useRef({ count: 0, threshold: 100 })
 
@@ -105,15 +128,89 @@ function Slider({
     if (sliderRef.current) sliderRef.current.style.transition = 'none'
   }, [])
 
+  const springFrame = useCallback(
+    (now: number) => {
+      const springObj = springStateRef.current
+      if (!springObj) return
+      if (springFrameTimeRef.current === 0) springFrameTimeRef.current = now
+      let dt = (now - springFrameTimeRef.current) / 1000
+      springFrameTimeRef.current = now
+      dt = Math.min(Math.max(dt, 0), MAX_FRAME_TIME)
+      springObj.step(dt)
+      currentTranslate.current = springObj.position
+      setSliderPosition()
+      if (springObj.isResting()) {
+        springObj.settle()
+        currentTranslate.current = springObj.position
+        prevTranslate.current = springObj.position
+        setSliderPosition()
+        springRef.current = null
+        springStateRef.current = null
+        return
+      }
+      springRef.current = requestAnimationFrame(springFrame)
+    },
+    [setSliderPosition]
+  )
+
+  const cancelSpring = useCallback(() => {
+    if (springRef.current !== null) {
+      cancelAnimationFrame(springRef.current)
+      springRef.current = null
+    }
+    springStateRef.current = null
+  }, [])
+
+  const startSpring = useCallback(
+    (target: number, initialVelocity = 0) => {
+      if (springRef.current !== null) {
+        cancelAnimationFrame(springRef.current)
+        springRef.current = null
+      }
+      springStateRef.current = null
+      const currentPosition = currentTranslate.current
+      if (Math.abs(target - currentPosition) < 0.5) {
+        currentTranslate.current = target
+        prevTranslate.current = target
+        setSliderPosition()
+        return
+      }
+      transitionOff()
+      const springObj = new Spring(
+        { stiffness, damping, mass },
+        currentPosition
+      )
+      springObj.setTarget(target)
+      springObj.setVelocity(initialVelocity)
+      springStateRef.current = springObj
+      springFrameTimeRef.current = 0
+      springRef.current = requestAnimationFrame(springFrame)
+    },
+    [stiffness, damping, mass, setSliderPosition, transitionOff, springFrame]
+  )
+
+  const animateTo = useCallback(
+    (target: number, initialVelocity = 0) => {
+      if (spring) {
+        startSpring(target, initialVelocity)
+      } else {
+        transitionOn()
+        currentTranslate.current = target
+        prevTranslate.current = target
+        setSliderPosition()
+      }
+    },
+    [spring, startSpring, transitionOn, setSliderPosition]
+  )
+
   // watch for a change in activeIndex prop
   useEffect(() => {
     if (activeIndex !== sliderPosition.currentIndex) {
-      transitionOn()
       sliderPosition.goTo(activeIndex ?? 0)
-      setPositionByIndex()
+      animateTo(sliderPosition.currentIndex * -dimensions.width)
       syncIndex()
     }
-  }, [activeIndex, sliderPosition, setPositionByIndex, transitionOn, syncIndex])
+  }, [activeIndex, sliderPosition, animateTo, syncIndex, dimensions.width])
 
   useLayoutEffect(() => {
     if (sliderRef.current) {
@@ -130,6 +227,7 @@ function Slider({
   useEffect(() => {
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
+      if (springRef.current) cancelAnimationFrame(springRef.current)
     }
   }, [])
 
@@ -137,6 +235,7 @@ function Slider({
   useEffect(() => {
     // set width if window resizes
     const handleResize = () => {
+      cancelSpring()
       transitionOff()
       if (sliderRef.current) {
         const { width, height } = getElementDimensions(sliderRef.current)
@@ -150,13 +249,12 @@ function Slider({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [setPositionByIndex, transitionOff])
+  }, [cancelSpring, setPositionByIndex, transitionOff])
 
   const handleKeyDown = useCallback(
     ({ key }: React.KeyboardEvent) => {
       if (!navigateOnArrowKeys) return
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
-      if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
         onSlideStart(sliderPosition.currentIndex)
       }
@@ -164,30 +262,37 @@ function Slider({
         sliderPosition.goTo(sliderPosition.currentIndex + 1)
       if (key === 'ArrowLeft')
         sliderPosition.goTo(sliderPosition.currentIndex - 1)
-      if (arrowsPressed && onSlideComplete)
-        onSlideComplete(sliderPosition.currentIndex)
-      setPositionByIndex()
+      if (arrowsPressed) {
+        animateTo(sliderPosition.currentIndex * -dimensions.width)
+        if (onSlideComplete) onSlideComplete(sliderPosition.currentIndex)
+      }
       syncIndex()
     },
     [
       navigateOnArrowKeys,
       onSlideComplete,
       onSlideStart,
-      setPositionByIndex,
       sliderPosition,
       syncIndex,
-      transitionOn,
+      animateTo,
+      dimensions.width,
     ]
   )
 
   function pointerStart(index: number) {
     return (event: React.PointerEvent) => {
-      transitionOn()
+      cancelSpring()
+      if (!spring) transitionOn()
       sliderPosition.goTo(index)
-      prevTranslate.current = sliderPosition.currentIndex * -dimensions.width
+      prevTranslate.current = spring
+        ? currentTranslate.current
+        : sliderPosition.currentIndex * -dimensions.width
       currentTranslate.current = prevTranslate.current
       startPos.current = event.pageX
       dragging.current = true
+      velocityRef.current = 0
+      lastMoveTimeRef.current = 0
+      lastMoveTranslateRef.current = currentTranslate.current
       animationRef.current = requestAnimationFrame(animation)
       if (sliderRef.current) sliderRef.current.style.cursor = 'grabbing'
       // if onSlideStart prop - call it
@@ -201,12 +306,26 @@ function Slider({
       const currentPosition = event.pageX
       currentTranslate.current =
         prevTranslate.current + currentPosition - startPos.current
+      const now = performance.now()
+      const dt = now - lastMoveTimeRef.current
+      if (dt > 0 && lastMoveTimeRef.current !== 0) {
+        const instantaneousVelocity =
+          ((currentTranslate.current - lastMoveTranslateRef.current) / dt) *
+          1000
+        velocityRef.current =
+          velocityRef.current * 0.7 + instantaneousVelocity * 0.3
+        velocityRef.current = Math.max(
+          -MAX_VELOCITY,
+          Math.min(MAX_VELOCITY, velocityRef.current)
+        )
+      }
+      lastMoveTimeRef.current = now
+      lastMoveTranslateRef.current = currentTranslate.current
     }
   }
 
   function pointerEnd() {
     // HACK: Non-Null Assertion operator
-    transitionOn()
     cancelAnimationFrame(animationRef.current!)
     dragging.current = false
     const movedBy = currentTranslate.current - prevTranslate.current
@@ -215,7 +334,11 @@ function Slider({
     // if moved enough positive then snap to previous slide if there is one
     sliderPosition.snapBy(movedBy)
 
-    setPositionByIndex()
+    animateTo(
+      sliderPosition.currentIndex * -dimensions.width,
+      velocityRef.current
+    )
+    velocityRef.current = 0
     sliderRef.current!.style.cursor = 'grab'
     // if onSlideComplete prop - call it
     if (onSlideComplete) onSlideComplete(sliderPosition.currentIndex)

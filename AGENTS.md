@@ -20,6 +20,7 @@ Single quotes, no semicolons, 2-space indent, trailing commas (es5). See `biome.
 ## Source layout
 
 - `src/lib/` — the published library (entry: `src/lib/index.ts` → re-exports `Slider`)
+- `src/lib/spring.ts` — dependency-free damped-spring physics (`Spring` class, tested in `src/lib/spring.test.ts`)
 - `src/App.tsx`, `src/images.ts`, `src/style.css` — demo app (not published, lives in repo only)
 - `src/utils.ts` — `getElementDimensions` helper (tested in `src/utils.test.ts`)
 
@@ -31,7 +32,8 @@ Single quotes, no semicolons, 2-space indent, trailing commas (es5). See `biome.
 
 ## Testing
 
-- Tests in `src/lib/Slider.test.tsx` (snapshot, keyboard, drag/threshold, rAF-cancel) and `src/utils.test.ts`
+- Tests in `src/lib/Slider.test.tsx` (snapshot, keyboard, drag/threshold, rAF-cancel, spring animation) and `src/utils.test.ts`
+- Spring-mode component tests use `vi.useFakeTimers()` to step the rAF loop deterministically
 - Vitest configured inline in `vite.config.ts` with `jsdom` environment
 
 ## Gotchas

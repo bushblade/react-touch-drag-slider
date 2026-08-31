@@ -19,3 +19,12 @@ title: Props
 Passing `activeIndex` makes the slider controlled — update it from your own
 state (for example with prev/next buttons) and the slider follows. See the
 [controlled example](/examples#controlled-with-buttons).
+
+TypeScript consumers can import the props type directly:
+
+```ts
+import Slider, { type SliderProps } from 'react-touch-drag-slider'
+```
+
+Useful for typing wrappers around the slider or omitting props, e.g.
+`Omit<SliderProps, 'children'>`.

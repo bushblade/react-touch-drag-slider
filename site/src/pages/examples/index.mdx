@@ -165,10 +165,9 @@ Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
 </Slider>
 ```
 
-> Note: the arrow-key listener is attached to `window`, so the arrow keys move
-> the slider even when it isn't focused. This is a known sharp edge — a
-> `navigateOnArrowKeys` prop (defaulting to `true`) is planned so you can turn
-> it off. Tracked in the [issue tracker](https://github.com/bushblade/react-touch-drag-slider/issues).
+Arrow keys only navigate while the slider is focused, and you can opt out with
+`navigateOnArrowKeys={false}` if the slider sits inside other keyboard-driven
+UI.
 
 <hr />
 

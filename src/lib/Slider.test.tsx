@@ -12,7 +12,7 @@ describe('Slider test', () => {
   test('It should render', () => {
     const result = render(
       <Slider>
-        {images.map((image) => (
+        {images.map(image => (
           <img src={image.url} alt={image.title} key={image.url} />
         ))}
       </Slider>
@@ -24,7 +24,7 @@ describe('Slider test', () => {
     const cancelSpy = vi.spyOn(window, 'cancelAnimationFrame')
     const result = render(
       <Slider>
-        {images.map((image) => (
+        {images.map(image => (
           <img src={image.url} alt={image.title} key={image.url} />
         ))}
       </Slider>
@@ -40,7 +40,7 @@ describe('Slider test', () => {
   test('It should update aria-valuenow as the slide changes via keyboard', () => {
     const result = render(
       <Slider>
-        {images.map((image) => (
+        {images.map(image => (
           <img src={image.url} alt={image.title} key={image.url} />
         ))}
       </Slider>
@@ -58,13 +58,84 @@ describe('Slider test', () => {
     fireEvent.keyDown(slider, { key: 'ArrowLeft' })
     expect(slider.getAttribute('aria-valuenow')).toBe('1')
   })
+
+  test('It should not navigate on arrow keys when the slider is not focused', () => {
+    const result = render(
+      <Slider>
+        {images.map(image => (
+          <img src={image.url} alt={image.title} key={image.url} />
+        ))}
+      </Slider>
+    )
+    const slider = result.container.querySelector('[data-testid="slider"]')
+    if (!slider) throw new Error('slider not found')
+
+    fireEvent.keyDown(document.body, { key: 'ArrowRight' })
+    fireEvent.keyDown(window, { key: 'ArrowRight' })
+    expect(slider.getAttribute('aria-valuenow')).toBe('0')
+  })
+
+  test('Multiple sliders on a page navigate independently', () => {
+    const renderSlider = () => (
+      <Slider>
+        {images.map(image => (
+          <img src={image.url} alt={image.title} key={image.url} />
+        ))}
+      </Slider>
+    )
+    const result = render(
+      <div>
+        {renderSlider()}
+        {renderSlider()}
+      </div>
+    )
+    const sliders = result.container.querySelectorAll('[data-testid="slider"]')
+    if (sliders.length !== 2) throw new Error('two sliders not found')
+
+    fireEvent.keyDown(sliders[1], { key: 'ArrowRight' })
+    expect(sliders[0].getAttribute('aria-valuenow')).toBe('0')
+    expect(sliders[1].getAttribute('aria-valuenow')).toBe('1')
+  })
+
+  test('navigateOnArrowKeys={false} disables arrow-key navigation', () => {
+    const result = render(
+      <Slider navigateOnArrowKeys={false}>
+        {images.map(image => (
+          <img src={image.url} alt={image.title} key={image.url} />
+        ))}
+      </Slider>
+    )
+    const slider = result.container.querySelector('[data-testid="slider"]')
+    if (!slider) throw new Error('slider not found')
+
+    fireEvent.keyDown(slider, { key: 'ArrowRight' })
+    expect(slider.getAttribute('aria-valuenow')).toBe('0')
+  })
+
+  test('It should fire onSlideStart and onSlideComplete on keyboard navigation', () => {
+    const onSlideStart = vi.fn()
+    const onSlideComplete = vi.fn()
+    const result = render(
+      <Slider onSlideStart={onSlideStart} onSlideComplete={onSlideComplete}>
+        {images.map(image => (
+          <img src={image.url} alt={image.title} key={image.url} />
+        ))}
+      </Slider>
+    )
+    const slider = result.container.querySelector('[data-testid="slider"]')
+    if (!slider) throw new Error('slider not found')
+
+    fireEvent.keyDown(slider, { key: 'ArrowRight' })
+    expect(onSlideStart).toHaveBeenCalledWith(0)
+    expect(onSlideComplete).toHaveBeenCalledWith(1)
+  })
 })
 
 describe('Slider drag interaction', () => {
   const renderSlider = (activeIndex?: number) => {
     const result = render(
       <Slider activeIndex={activeIndex}>
-        {images.map((image) => (
+        {images.map(image => (
           <img src={image.url} alt={image.title} key={image.url} />
         ))}
       </Slider>

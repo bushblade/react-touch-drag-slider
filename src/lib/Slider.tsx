@@ -20,6 +20,7 @@ interface SliderProps {
   threshold?: number
   transition?: number
   scaleOnDrag?: boolean
+  navigateOnArrowKeys?: boolean
 }
 
 /**
@@ -36,6 +37,8 @@ interface SliderProps {
  * @param props.transition - The transition delay in seconds
  * @param props.scaleOnDrag - Choose if the slide should have a scale animation
  * while moving
+ * @param props.navigateOnArrowKeys - Choose if arrow keys should navigate when
+ * the slider is focused
  *
  */
 
@@ -47,6 +50,7 @@ function Slider({
   threshold = 100,
   transition = 0.3,
   scaleOnDrag = false,
+  navigateOnArrowKeys = true,
 }: SliderProps) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [currentIndex, setCurrentIndex] = useState(activeIndex ?? 0)
@@ -68,8 +72,7 @@ function Slider({
     sliderPositionRef.current = new SliderPosition({
       count: children.length,
       threshold,
-      initialIndex:
-        sliderPositionRef.current?.currentIndex ?? activeIndex ?? 0,
+      initialIndex: sliderPositionRef.current?.currentIndex ?? activeIndex ?? 0,
     })
     sliderConfigRef.current = { count: children.length, threshold }
   }
@@ -142,7 +145,16 @@ function Slider({
       }
     }
 
-    const handleKeyDown = ({ key }: KeyboardEvent) => {
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [setPositionByIndex, transitionOff])
+
+  const handleKeyDown = useCallback(
+    ({ key }: React.KeyboardEvent) => {
+      if (!navigateOnArrowKeys) return
       const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key)
       if (arrowsPressed) transitionOn()
       if (arrowsPressed && onSlideStart) {
@@ -150,29 +162,23 @@ function Slider({
       }
       if (key === 'ArrowRight')
         sliderPosition.goTo(sliderPosition.currentIndex + 1)
-      if (key === 'ArrowLeft') sliderPosition.goTo(sliderPosition.currentIndex - 1)
+      if (key === 'ArrowLeft')
+        sliderPosition.goTo(sliderPosition.currentIndex - 1)
       if (arrowsPressed && onSlideComplete)
         onSlideComplete(sliderPosition.currentIndex)
       setPositionByIndex()
       syncIndex()
-    }
-
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [
-    setPositionByIndex,
-    onSlideComplete,
-    onSlideStart,
-    transitionOn,
-    transitionOff,
-    sliderPosition,
-    syncIndex,
-  ])
+    },
+    [
+      navigateOnArrowKeys,
+      onSlideComplete,
+      onSlideStart,
+      setPositionByIndex,
+      sliderPosition,
+      syncIndex,
+      transitionOn,
+    ]
+  )
 
   function pointerStart(index: number) {
     return (event: React.PointerEvent) => {
@@ -247,6 +253,7 @@ function Slider({
         aria-valuemax={children.length - 1} // The last slide index
         aria-valuenow={currentIndex} // The current slide index
         tabIndex={0}
+        onKeyDown={handleKeyDown}
         style={{
           all: 'initial',
           width: '100%',

@@ -95,8 +95,9 @@ Netlify deployment.
   `pnpm --filter site build` step; the audit predates it.
 - [ ] **4.3 No unit tests, a11y checks, or Lighthouse step** in the site
   pipeline (acceptable for a docs site, but noted).
-- [x] **4.4 Window-keydown listener caveat** accurately documented in both
-  `a11y.mdx` and `examples/index.mdx`.
+- [x] **4.4 Window-keydown listener caveat** removed: arrow-key navigation now
+  requires focus (listener moved onto the slider element) and `navigateOnArrowKeys`
+  shipped, so the caveat no longer applies.
 
 ## Suggested deployment-time order
 

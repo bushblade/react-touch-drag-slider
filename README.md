@@ -63,6 +63,7 @@ export default App
 | threshold       | number                           | 100     | A pixel value that must be dragged before slide snaps to position   |
 | transition      | number                           | 0.3     | The transition delay in seconds                                     |
 | scaleOnDrag     | boolean                          | false   | Should the individual slide scale while dragging                    |
+| navigateOnArrowKeys | boolean                      | true    | Whether arrow keys navigate while the slider is focused            |
 
 ## Docs & Examples
 

@@ -17,12 +17,12 @@ can receive keyboard focus, and exposes:
 ## Keyboard
 
 Focus the slider and press `ArrowLeft` or `ArrowRight` to move between slides.
-Arrow-key moves fire `onSlideStart` and `onSlideComplete` just like drags do.
+Navigation only happens while the slider is focused, so multiple sliders on a
+page respond independently. Arrow-key moves fire `onSlideStart` and
+`onSlideComplete` just like drags do.
 
-> Known edge: the arrow-key listener is attached to `window`, so the slider
-> responds to arrow keys even when it isn't focused. A `navigateOnArrowKeys`
-> prop (defaulting to `true`) is planned so sites can opt out. Tracked in the
-> [issue tracker](https://github.com/bushblade/react-touch-drag-slider/issues).
+Pass `navigateOnArrowKeys={false}` to disable arrow-key navigation entirely —
+useful for sliders nested inside other keyboard-driven UI.
 
 ## Pointer
 

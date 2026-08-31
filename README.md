@@ -61,9 +61,13 @@ export default App
 | onSlideStart    | (startIndex: number) => void     |         | A function that gets called on start                                |
 | activeIndex     | number                           | 0       | Set to start on this index or use state to update the current index |
 | threshold       | number                           | 100     | A pixel value that must be dragged before slide snaps to position   |
-| transition      | number                           | 0.3     | The transition delay in seconds                                     |
+| transition      | number                           | 0.3     | The CSS snap duration in seconds (ignored when spring is enabled)   |
 | scaleOnDrag     | boolean                          | false   | Should the individual slide scale while dragging                    |
 | navigateOnArrowKeys | boolean                      | true    | Whether arrow keys navigate while the slider is focused            |
+| spring          | boolean                          | false   | Settle with spring physics instead of a CSS transition              |
+| stiffness       | number                           | 180     | Spring stiffness (used when spring is enabled)                      |
+| damping         | number                           | 16      | Spring damping (used when spring is enabled)                        |
+| mass            | number                           | 1       | Spring mass (used when spring is enabled)                           |
 
 ## Docs & Examples
 

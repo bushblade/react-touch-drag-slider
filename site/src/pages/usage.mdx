@@ -24,7 +24,7 @@ const images = [
 
 function App() {
   return (
-    <Slider activeIndex={0} threshold={100} transition={0.3}>
+    <Slider activeIndex={0} threshold={100} spring>
       {images.map(({ title, url }) => (
         <img src={url} key={title} alt={title} />
       ))}
@@ -34,6 +34,11 @@ function App() {
 
 export default App
 ```
+
+With `spring`, slides settle with spring physics instead of a CSS transition,
+so `transition` is ignored. The spring's feel is tuned with `stiffness`,
+`damping`, and `mass`. Leave `spring` off to use the CSS transition, controlled
+by `transition`.
 
 ## Sizing
 

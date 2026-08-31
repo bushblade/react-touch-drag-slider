@@ -12,9 +12,18 @@ title: Props
 | `onSlideComplete` | `(index: number) => void` | — | Called when a slide settles into its finished position. |
 | `onSlideStart` | `(index: number) => void` | — | Called when a drag or keyboard move starts. |
 | `threshold` | `number` | `100` | Pixels that must be dragged before the slider snaps to the next or previous slide. |
-| `transition` | `number` | `0.3` | The transition duration in seconds. |
+| `transition` | `number` | `0.3` | The CSS snap duration in seconds. Ignored when `spring` is enabled. |
 | `scaleOnDrag` | `boolean` | `false` | Whether the dragged slide scales while moving. |
 | `navigateOnArrowKeys` | `boolean` | `true` | Whether arrow keys navigate when the slider is focused. Set to `false` to disable arrow-key navigation entirely. |
+| `spring` | `boolean` | `false` | Settle with spring physics instead of a CSS transition. |
+| `stiffness` | `number` | `180` | Spring stiffness (used when `spring` is enabled). |
+| `damping` | `number` | `16` | Spring damping (used when `spring` is enabled). |
+| `mass` | `number` | `1` | Spring mass (used when `spring` is enabled). |
+
+By default the slider settles with a CSS transition whose duration comes from
+`transition`. When `spring` is enabled the settle is driven by spring physics
+instead — the `transition` prop has no effect and the CSS transition is turned
+off. The spring's feel is tuned with `stiffness`, `damping`, and `mass`.
 
 Passing `activeIndex` makes the slider controlled — update it from your own
 state (for example with prev/next buttons) and the slider follows. See the

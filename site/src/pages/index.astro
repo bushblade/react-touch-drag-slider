@@ -21,6 +21,14 @@ const features = [
     icon: 'lucide:package',
     label: 'Zero dependencies',
   },
+  {
+    icon: 'lucide:waves',
+    label: 'Spring physics settle',
+  },
+  {
+    icon: 'lucide:keyboard',
+    label: 'Keyboard navigation',
+  },
 ]
 ---
 <SiteLayout
@@ -90,7 +98,19 @@ const features = [
 
   <section>
     <BrowserFrame title="demo · react-touch-drag-slider">
-      <h2 class="mb-5 text-xl font-semibold">Live demo</h2>
+      <div class="mb-5 flex flex-wrap items-center gap-3">
+        <h2 class="text-xl font-semibold">Live demo</h2>
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent"
+        >
+          <Icon name="lucide:waves" class="h-3.5 w-3.5" aria-hidden="true" />
+          spring physics
+        </span>
+      </div>
+      <p class="mb-5 text-sm text-fg-muted">
+        This demo settles with spring physics — drag and release and the slide
+        bounces into place. <a href="/examples/#spring" class="underline hover:text-accent">Learn more</a>.
+      </p>
       <DemoSlider client:load />
     </BrowserFrame>
   </section>

@@ -11,7 +11,8 @@ import BrowserFrame from '../../components/BrowserFrame.astro'
 # Examples
 
 - [Threshold](#threshold) — how far a drag must go before the slide snaps.
-- [Transition](#transition) — controlling the snap animation speed.
+- [Transition](#transition) — controlling the snap animation speed (CSS only).
+- [Spring](#spring) — settling with spring physics instead of a CSS transition.
 - [Scale on drag](#scale-on-drag) — the slide scales while you drag.
 - [Controlled with buttons](#controlled-with-buttons) — driving `activeIndex`
   from your own state with prev/next buttons.
@@ -44,8 +45,10 @@ This example uses `threshold={50}` — drag a shorter distance and it still snap
 
 ## Transition
 
-The `transition` prop sets the duration, in seconds, of the snap animation. The
-default is `0.3`.
+The `transition` prop sets the duration, in seconds, of the CSS snap animation.
+The default is `0.3`. It only applies when `spring` is off — with spring
+physics the settle is animated by the spring instead and `transition` is
+ignored.
 
 This example uses `transition={0.8}` — a slower, more noticeable snap:
 
@@ -55,6 +58,28 @@ This example uses `transition={0.8}` — a slower, more noticeable snap:
 
 ```jsx
 <Slider transition={0.8}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+<hr />
+
+## Spring
+
+Passing `spring` settles the slide with spring physics instead of a CSS
+transition. The spring is tuned with `stiffness`, `damping`, and `mass`; the
+`transition` prop is ignored while spring is enabled.
+
+This example uses a bouncier spring (`stiffness={150}`, `damping={12}`):
+
+<BrowserFrame title="spring · react-touch-drag-slider" bodyClass="p-4 sm:p-6">
+  <SliderExample threshold={100} spring stiffness={150} damping={12} client:load />
+</BrowserFrame>
+
+```jsx
+<Slider spring stiffness={150} damping={12}>
   {images.map(({ url, title }) => (
     <img src={url} key={title} alt={title} />
   ))}

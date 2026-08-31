@@ -24,7 +24,7 @@ function DemoSlider() {
           activeIndex={index}
           onSlideComplete={setIndex}
           threshold={100}
-          transition={0.3}
+          spring
           scaleOnDrag
         >
           {images.map(({ url, title }) => (

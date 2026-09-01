@@ -1,6 +1,9 @@
 export interface SpringConfig {
+  /** The spring stiffness when spring is enabled */
   stiffness: number
+  /** The spring damping when spring is enabled */
   damping: number
+  /** The spring mass when spring is enabled */
   mass: number
 }
 

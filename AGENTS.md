@@ -36,6 +36,13 @@ Single quotes, no semicolons, 2-space indent, trailing commas (es5). See `biome.
 - Spring-mode component tests use `vi.useFakeTimers()` to step the rAF loop deterministically
 - Vitest configured inline in `vite.config.ts` with `jsdom` environment
 
+## JSDoc and generated types
+
+- `unplugin-dts` preserves JSDoc comments on interface/type properties in `.d.ts` output, but NOT standalone block comments.
+- **Rule 1:** to document public props/types (e.g. `SliderProps`, `SpringConfig`), put `/** ... */` JSDoc directly on each property, not in a separate `@param props.x` block above the component. Only that way does the doc surface in the published types for consumer autocompletion.
+- **Rule 2:** to document a component/function itself, the JSDoc must sit directly above the declaration with nothing in between. A comment separated from the function by other statements (e.g. `const MAX_VELOCITY = 5000`) is treated as a standalone comment and dropped from the `.d.ts` output.
+- **Rule 3:** to get prop descriptions into the editor hover tooltip for a component, add `@param` tags to the component's own JSDoc block. JSDoc on the `SliderProps` interface only surfaces when hovering individual props or the type definition itself — not the component. Both are needed for the best DX.
+
 ## Gotchas
 
 - React peer dep is `>=18.0.0`

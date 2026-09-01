@@ -14,47 +14,50 @@ import SliderPosition from './sliderPosition'
 import Spring from './spring'
 
 export interface SliderProps {
+  /** An array of valid React Children */
   children: ReactElement[]
+  /** An optional function that will be called when the slide is in its finished position */
   onSlideComplete?: (index: number) => void
+  /** An optional function that will be called when the slide starts its movement */
   onSlideStart?: (index: number) => void
+  /** Use to set the starting index or to update the current shown slide */
   activeIndex?: number | null
+  /** A pixel value that must be dragged before slide snaps into place */
   threshold?: number
+  /** The transition delay in seconds */
   transition?: number
+  /** Choose if the slide should have a scale animation while moving */
   scaleOnDrag?: boolean
+  /** Choose if arrow keys should navigate when the slider is focused */
   navigateOnArrowKeys?: boolean
+  /** Choose if the slide should settle with spring physics instead of a CSS transition */
   spring?: boolean
+  /** The spring stiffness when spring is enabled */
   stiffness?: number
+  /** The spring damping when spring is enabled */
   damping?: number
+  /** The spring mass when spring is enabled */
   mass?: number
 }
-
-/**
- *
- * @param props.children - An array of valid React Children
- * @param props.onSlideComplete - An optional function that will be called when
- * the slide is in it's finished position
- * @param props.onSlideStart - An optional function that will be called when the
- * slide starts it's movement
- * @param props.activeIndex - Use to set the starting index or to upate the
- * current shown slide
- * @param props.threshold - A pixel value that must be dragged before slide
- * snaps into place
- * @param props.transition - The transition delay in seconds
- * @param props.scaleOnDrag - Choose if the slide should have a scale animation
- * while moving
- * @param props.navigateOnArrowKeys - Choose if arrow keys should navigate when
- * the slider is focused
- * @param props.spring - Choose if the slide should settle with spring physics
- * instead of a CSS transition
- * @param props.stiffness - The spring stiffness when spring is enabled
- * @param props.damping - The spring damping when spring is enabled
- * @param props.mass - The spring mass when spring is enabled
- *
- */
 
 const MAX_VELOCITY = 5000
 const MAX_FRAME_TIME = 1 / 30
 
+/**
+ * A touch-drag slider carousel component for React.
+ * @param children - An array of valid React Children
+ * @param onSlideComplete - An optional function that will be called when the slide is in its finished position
+ * @param onSlideStart - An optional function that will be called when the slide starts its movement
+ * @param activeIndex - Use to set the starting index or to update the current shown slide
+ * @param threshold - A pixel value that must be dragged before slide snaps into place
+ * @param transition - The transition delay in seconds
+ * @param scaleOnDrag - Choose if the slide should have a scale animation while moving
+ * @param navigateOnArrowKeys - Choose if arrow keys should navigate when the slider is focused
+ * @param spring - Choose if the slide should settle with spring physics instead of a CSS transition
+ * @param stiffness - The spring stiffness when spring is enabled
+ * @param damping - The spring damping when spring is enabled
+ * @param mass - The spring mass when spring is enabled
+ */
 function Slider({
   children,
   onSlideComplete,

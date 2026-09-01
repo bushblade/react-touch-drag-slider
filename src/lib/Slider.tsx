@@ -14,7 +14,6 @@ import SliderPosition from './sliderPosition'
 import Spring from './spring'
 
 export interface SliderProps {
-  /** An array of valid React Children */
   children: ReactElement[]
   /** An optional function that will be called when the slide is in its finished position */
   onSlideComplete?: (index: number) => void
@@ -45,7 +44,6 @@ const MAX_FRAME_TIME = 1 / 30
 
 /**
  * A touch-drag slider carousel component for React.
- * @param children - An array of valid React Children
  * @param onSlideComplete - An optional function that will be called when the slide is in its finished position
  * @param onSlideStart - An optional function that will be called when the slide starts its movement
  * @param activeIndex - Use to set the starting index or to update the current shown slide
@@ -57,6 +55,17 @@ const MAX_FRAME_TIME = 1 / 30
  * @param stiffness - The spring stiffness when spring is enabled
  * @param damping - The spring damping when spring is enabled
  * @param mass - The spring mass when spring is enabled
+ * @example
+ * <Slider
+ *   activeIndex={0}
+ *   onSlideComplete={(i) => console.log(i)}
+ *   threshold={100}
+ *   spring
+ *   scaleOnDrag
+ * >
+ *   <img src="image1.jpg" alt="Slide 1" />
+ *   <img src="image2.jpg" alt="Slide 2" />
+ * </Slider>
  */
 function Slider({
   children,

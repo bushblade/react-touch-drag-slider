@@ -79,6 +79,11 @@ Full documentation, prop reference, and live demos are on the
 - [Examples](https://react-touch-drag-slider.netlify.app/examples/)
 - [Accessibility](https://react-touch-drag-slider.netlify.app/a11y/)
 
+For agents and RAG pipelines, a machine-readable summary is available at
+`https://react-touch-drag-slider.netlify.app/llms.txt` (spec v2 index) and
+`https://react-touch-drag-slider.netlify.app/llms-full.txt` (all content
+inlined).
+
 For example of use in a full screen modal with a gallery, please checkout any of the galleries in [Bushblade Knives](https://bushblade.co.uk)
 
 ## License

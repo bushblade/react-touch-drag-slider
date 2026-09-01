@@ -1,0 +1,253 @@
+# react-touch-drag-slider
+
+> A small, zero-dependency touch and drag slider carousel component for React. Swipe or drag to move between slides, snaps past a threshold, and works with the keyboard.
+
+React >=18. Ships as ESM only (no UMD). Zero runtime dependencies.
+
+The slider accepts any children as slides. When `spring` is enabled, slides settle with spring physics (`stiffness`, `damping`, `mass`) instead of a CSS transition. Pass `activeIndex` to drive the slider from external state (prev/next buttons).
+
+## Docs
+
+- [Usage](https://react-touch-drag-slider.netlify.app/usage/): Install, sizing, spring vs CSS transition
+- [Props](https://react-touch-drag-slider.netlify.app/props/): Full prop reference (activeIndex, threshold, spring, callbacks, etc.)
+- [Examples](https://react-touch-drag-slider.netlify.app/examples/): Code + live demos for threshold, transition, spring, scale, controlled, callbacks, keyboard
+- [Accessibility](https://react-touch-drag-slider.netlify.app/a11y/): role="slider", aria attributes, keyboard navigation, pointer handling
+
+## Optional
+
+- [GitHub repo](https://github.com/bushblade/react-touch-drag-slider): Source code and issue tracker
+- [npm package](https://www.npmjs.com/package/react-touch-drag-slider): Install and version history
+
+---
+
+# Usage
+
+## Install
+
+```bash
+npm i react-touch-drag-slider
+```
+
+The slider renders whatever elements you pass as `children` — `<img>` tags, cards, or your own components — each becoming a draggable slide.
+
+```jsx
+import Slider from 'react-touch-drag-slider'
+
+const images = [
+  { title: 'Mountains', url: 'https://example.com/mountains.jpg' },
+  { title: 'Forest', url: 'https://example.com/forest.jpg' },
+]
+
+function App() {
+  return (
+    <Slider activeIndex={0} threshold={100} spring>
+      {images.map(({ title, url }) => (
+        <img src={url} key={title} alt={title} />
+      ))}
+    </Slider>
+  )
+}
+
+export default App
+```
+
+With `spring`, slides settle with spring physics instead of a CSS transition, so `transition` is ignored. The spring's feel is tuned with `stiffness`, `damping`, and `mass`. Leave `spring` off to use the CSS transition, controlled by `transition`.
+
+## Sizing
+
+The slider fills its parent container and measures it on first render, so wrap it in an element with an explicit width and height:
+
+```jsx
+<div className="h-80 w-full overflow-hidden">
+  <Slider>
+    ...
+  </Slider>
+</div>
+```
+
+Resizing the window is handled automatically.
+
+---
+
+# Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `activeIndex` | `number \| null` | `null` | The starting slide, or a controlled value for the current slide. |
+| `onSlideComplete` | `(index: number) => void` | — | Called when a slide settles into its finished position. |
+| `onSlideStart` | `(index: number) => void` | — | Called when a drag or keyboard move starts. |
+| `threshold` | `number` | `100` | Pixels that must be dragged before the slider snaps to the next or previous slide. |
+| `transition` | `number` | `0.3` | The CSS snap duration in seconds. Ignored when `spring` is enabled. |
+| `scaleOnDrag` | `boolean` | `false` | Whether the dragged slide scales while moving. |
+| `navigateOnArrowKeys` | `boolean` | `true` | Whether arrow keys navigate when the slider is focused. Set to `false` to disable arrow-key navigation entirely. |
+| `spring` | `boolean` | `false` | Settle with spring physics instead of a CSS transition. |
+| `stiffness` | `number` | `180` | Spring stiffness (used when `spring` is enabled). |
+| `damping` | `number` | `16` | Spring damping (used when `spring` is enabled). |
+| `mass` | `number` | `1` | Spring mass (used when `spring` is enabled). |
+
+By default the slider settles with a CSS transition whose duration comes from `transition`. When `spring` is enabled the settle is driven by spring physics instead — the `transition` prop has no effect and the CSS transition is turned off. The spring's feel is tuned with `stiffness`, `damping`, and `mass`.
+
+Passing `activeIndex` makes the slider controlled — update it from your own state (for example with prev/next buttons) and the slider follows.
+
+TypeScript consumers can import the props type directly:
+
+```ts
+import Slider, { type SliderProps } from 'react-touch-drag-slider'
+```
+
+Useful for typing wrappers around the slider or omitting props, e.g. `Omit<SliderProps, 'children'>`.
+
+---
+
+# Examples
+
+- [Threshold](#threshold) — how far a drag must go before the slide snaps.
+- [Transition](#transition) — controlling the snap animation speed (CSS only).
+- [Spring](#spring) — settling with spring physics instead of a CSS transition.
+- [Scale on drag](#scale-on-drag) — the slide scales while you drag.
+- [Controlled with buttons](#controlled-with-buttons) — driving `activeIndex` from your own state with prev/next buttons.
+- [Callbacks](#callbacks) — watching `onSlideStart` and `onSlideComplete`.
+- [Keyboard](#keyboard) — navigating with the arrow keys.
+- [Real-world usage](#real-world-usage) — a live site using the slider.
+
+## Threshold
+
+The `threshold` prop is the pixel distance a drag must exceed before the slider snaps to the next or previous slide. The default is `100`.
+
+This example uses `threshold={50}` — drag a shorter distance and it still snaps:
+
+```jsx
+<Slider threshold={50}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+## Transition
+
+The `transition` prop sets the duration, in seconds, of the CSS snap animation. The default is `0.3`. It only applies when `spring` is off — with spring physics the settle is animated by the spring instead and `transition` is ignored.
+
+This example uses `transition={0.8}` — a slower, more noticeable snap:
+
+```jsx
+<Slider transition={0.8}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+## Spring
+
+Passing `spring` settles the slide with spring physics instead of a CSS transition. The spring is tuned with `stiffness`, `damping`, and `mass`; the `transition` prop is ignored while spring is enabled.
+
+This example uses a bouncier spring (`stiffness={150}`, `damping={12}`):
+
+```jsx
+<Slider spring stiffness={150} damping={12}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+## Scale on drag
+
+The `scaleOnDrag` prop adds a scale animation while a slide is being dragged:
+
+```jsx
+<Slider scaleOnDrag>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+## Controlled with buttons
+
+The library renders slides only — it doesn't ship prev/next buttons. To add them, keep the current slide in your own state and pass it back as `activeIndex`, then update that state from your buttons:
+
+```jsx
+import { useState } from 'react'
+import Slider from 'react-touch-drag-slider'
+
+function App() {
+  const [index, setIndex] = useState(0)
+
+  return (
+    <>
+      <button onClick={() => setIndex((i) => Math.max(0, i - 1))}>
+        Previous
+      </button>
+      <button
+        onClick={() => setIndex((i) => Math.min(images.length - 1, i + 1))}
+      >
+        Next
+      </button>
+      <Slider activeIndex={index} onSlideComplete={setIndex}>
+        {images.map(({ url, title }) => (
+          <img src={url} key={title} alt={title} />
+        ))}
+      </Slider>
+    </>
+  )
+}
+```
+
+`onSlideComplete={setIndex}` keeps the state in sync when the user drags instead of clicking a button.
+
+## Callbacks
+
+`onSlideStart` fires when a drag (or arrow-key move) begins; `onSlideComplete` fires when the slide settles into its finished position. Both receive the slide index.
+
+```jsx
+<Slider
+  onSlideStart={(index) => console.log('started', index)}
+  onSlideComplete={(index) => console.log('finished', index)}
+>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+## Keyboard
+
+The slider wrapper is focusable (`tabIndex={0}`) and exposes `role="slider"`. Focus it and press `ArrowLeft` / `ArrowRight` to move between slides:
+
+```jsx
+<Slider threshold={100}>
+  {images.map(({ url, title }) => (
+    <img src={url} key={title} alt={title} />
+  ))}
+</Slider>
+```
+
+Arrow keys only navigate while the slider is focused, and you can opt out with `navigateOnArrowKeys={false}` if the slider sits inside other keyboard-driven UI.
+
+## Real-world usage
+
+[Bushblade Knives gallery](https://bushblade.co.uk/knives/woodlore-clone) — a full screen modal gallery built with the slider.
+
+---
+
+# Accessibility
+
+## Slider semantics
+
+The slider wrapper is rendered with `role="slider"` and `tabIndex={0}` so it can receive keyboard focus, and exposes:
+
+- `aria-valuemin` — the first slide index (`0`)
+- `aria-valuemax` — the last slide index
+- `aria-valuenow` — the current slide index, kept in sync with the live slide
+
+## Keyboard
+
+Focus the slider and press `ArrowLeft` or `ArrowRight` to move between slides. Navigation only happens while the slider is focused, so multiple sliders on a page respond independently. Arrow-key moves fire `onSlideStart` and `onSlideComplete` just like drags do.
+
+Pass `navigateOnArrowKeys={false}` to disable arrow-key navigation entirely — useful for sliders nested inside other keyboard-driven UI.
+
+## Pointer
+
+Slides use `touch-action: pan-y pinch-zoom` so drag gestures work without the browser panning horizontally, while still allowing vertical page scrolling and pinch-to-zoom on the slide content. The default context menu is suppressed during a drag.

@@ -1,0 +1,19 @@
+# react-touch-drag-slider
+
+> A small, zero-dependency touch and drag slider carousel component for React. Swipe or drag to move between slides, snaps past a threshold, and works with the keyboard.
+
+React >=18. Ships as ESM only (no UMD). Zero runtime dependencies.
+
+The slider accepts any children as slides. When `spring` is enabled, slides settle with spring physics (`stiffness`, `damping`, `mass`) instead of a CSS transition. Pass `activeIndex` to drive the slider from external state (prev/next buttons).
+
+## Docs
+
+- [Usage](https://react-touch-drag-slider.netlify.app/usage/): Install, sizing, spring vs CSS transition
+- [Props](https://react-touch-drag-slider.netlify.app/props/): Full prop reference (activeIndex, threshold, spring, callbacks, etc.)
+- [Examples](https://react-touch-drag-slider.netlify.app/examples/): Code + live demos for threshold, transition, spring, scale, controlled, callbacks, keyboard
+- [Accessibility](https://react-touch-drag-slider.netlify.app/a11y/): role="slider", aria attributes, keyboard navigation, pointer handling
+
+## Optional
+
+- [GitHub repo](https://github.com/bushblade/react-touch-drag-slider): Source code and issue tracker
+- [npm package](https://www.npmjs.com/package/react-touch-drag-slider): Install and version history

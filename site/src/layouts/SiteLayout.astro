@@ -41,6 +41,8 @@ const imageUrl = site && ogImage.startsWith('/') ? new URL(ogImage, site) : ogIm
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     {imageUrl ? <meta name="twitter:image" content={imageUrl} /> : null}
+    <link rel="describedby" href="/llms.txt" />
+    <link rel="alternate" type="text/markdown" href="/llms-full.txt" />
     <script is:inline>
       ;(() => {
         const stored = localStorage.getItem('theme')
